@@ -14,8 +14,8 @@ KEYBOARDY  = 5   # Top left of the full keyboard
 KEYBETWEEN = 0   # distance between the key
 KEY_HEIGHT = 0   # height of white key (useful for put the text at the right distance
 # DISTKEY_TEXT = 10  # distance between the key and the text with the name of the key below
-BLUE  = (0,   0, 255)
-BLACK = (0,   0,   0)
+# BLUE  = (0,   0, 255)
+# BLACK = (0,   0,   0)
 
 # DEFINING THE KEYBOARD SETTING:
 # we use 'freesound_med' folder with 4 octaves: C2 to G5
