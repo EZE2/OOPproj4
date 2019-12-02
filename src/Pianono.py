@@ -13,21 +13,9 @@ KEYBOARDX  = 5   # Top left of the full keyboard
 KEYBOARDY  = 5   # Top left of the full keyboard
 KEYBETWEEN = 0   # distance between the key
 KEY_HEIGHT = 0   # height of white key (useful for put the text at the right distance
-DISTKEY_TEXT = 10  # distance between the key and the text with the name of the key below
+# DISTKEY_TEXT = 10  # distance between the key and the text with the name of the key below
 BLUE  = (0,   0, 255)
 BLACK = (0,   0,   0)
-
-QWERTY_SCANCODE_UNICODE = dict(zip([  # correspondance qwerty keyboard with its scancode
-    49, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-    38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 51,
-    50, 94, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62
-], [
-    '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
-    'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\',
-    'lsh', '<', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'rsh'
-]))
 
 # DEFINING THE KEYBOARD SETTING:
 # we use 'freesound_med' folder with 4 octaves: C2 to G5
@@ -83,34 +71,35 @@ class Key(pygame.sprite.Sprite):
 class Game(object):
     def __init__(self):
         # Qwerty or Azerty keyboard depending on command line arguments:
-        if len(sys.argv) == 1:
-            SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
-        elif len(sys.argv) > 2:
-            print("You need to provide only one argument: for example: 'python pypiano.pi azerty'")
-            sys.exit()
-        else:
-            arg = sys.argv[1].upper()
-            if arg == "QWERTY":
-                SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
-            elif arg == "AZERTY":
-                SCANCODE_UNICODE = AZERTY_SCANCODE_UNICODE
-            else:
-                print("Not a valid argument. Valid example: 'python pypiano.pi azerty'")
-                sys.exit()
+        # if len(sys.argv) == 1:
+        #     SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
+        # elif len(sys.argv) > 2:
+        #     print("You need to provide only one argument: for example: 'python pypiano.pi azerty'")
+        #     sys.exit()
+        # else:
+        #     arg = sys.argv[1].upper()
+        #     if arg == "QWERTY":
+        #         SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
+        #     elif arg == "AZERTY":
+        #         SCANCODE_UNICODE = AZERTY_SCANCODE_UNICODE
+        #     else:
+        #         print("Not a valid argument. Valid example: 'python pypiano.pi azerty'")
+        #         sys.exit()
 
         # Draw the background:
         self.screen = pygame.display.set_mode((900, 250))  # set screensize of pygame window
         self.background = pygame.Surface(self.screen.get_size())  # create empty pygame surface
         self.background.fill((255, 255, 255))  # fill the background white color (red,green,blue)
+
         # Useless if it's not a sprite...:
         # self.background = self.background.convert()  #convert Surface object to make blitting faster
 
         # Create all the sprites beforehand:
         # Position of key for one octave:
         key_octave = ['key_white_Left', 'key_black', 'key_white_Middle', 'key_black',
-                      'key_white_Right', 'key_white_Left', 'key_black', 'key_white_Middle', 'key_black', \
+                      'key_white_Right', 'key_white_Left', 'key_black', 'key_white_Middle', 'key_black',
                       'key_white_Middle', 'key_black', 'key_white_Right']
-        music_octave = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+        # music_octave = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
         keyevent_idx = 0  # each key must have a reference to the keyboard ascii with their correct position:
         keyboardx_position = KEYBOARDX
 
@@ -123,33 +112,33 @@ class Game(object):
                 keyevent_idx += 1
                 # Draw the keys:
                 if key_obj.color == 'white':
-                    key_obj.rect.x = keyboardx_position
-                    keyboardx_position += key_obj.width + KEYBETWEEN
+                     key_obj.rect.x = keyboardx_position
+                     keyboardx_position += key_obj.width + KEYBETWEEN
                 elif key_obj.color == 'black':
-                    key_obj.rect.x = keyboardx_position - key_obj.width / 4
-                    key_obj._layer = 1  # move it to the front position (the bigger the number
+                     key_obj.rect.x = keyboardx_position - key_obj.width / 4
+                     key_obj._layer = 1  # move it to the front position (the bigger the number
                 self.background.blit(key_obj.image, key_obj.rect)
                 self.keysprites.add(key_obj)  # add the key sprite to the group
                 # Print the Name of the key below:
-                fontObj = pygame.font.Font('freesansbold.ttf', 12)
+                # fontObj = pygame.font.Font('freesansbold.ttf', 12)
                 # Display the letter on the keyboard and the music note bellow)
-                text_keyboardSurf = fontObj.render(SCANCODE_UNICODE[int(key_obj.keyevent)], True, BLUE)
-                text_musicnoteSurf = fontObj.render(music_octave[idx] + str(i + 2), True, BLACK)
+        #         text_keyboardSurf = fontObj.render(SCANCODE_UNICODE[int(key_obj.keyevent)], True, BLUE)
+        #         text_musicnoteSurf = fontObj.render(music_octave[idx] + str(i + 2), True, BLACK)
 
-                text_keyboardRect = text_keyboardSurf.get_rect()
-                text_musicnoteRect = text_musicnoteSurf.get_rect()
+        #         text_keyboardRect = text_keyboardSurf.get_rect()
+        #         text_musicnoteRect = text_musicnoteSurf.get_rect()
 
                 # position the rect under the key (using KEY_HEIGHT which is defined only now
-                if key_obj.color == 'black':
-                    text_musicnoteRect.topright = key_obj.rect.centerx, KEY_HEIGHT + 5 * DISTKEY_TEXT
-                    text_keyboardRect.topright = key_obj.rect.centerx, KEY_HEIGHT + 0.5 * DISTKEY_TEXT
-                elif key_obj.color == 'white':
-                    KEY_HEIGHT = key_obj.rect.height
-                    text_musicnoteRect.midtop = key_obj.rect.centerx, KEY_HEIGHT + 6 * DISTKEY_TEXT
-                    text_keyboardRect.midtop = key_obj.rect.centerx, KEY_HEIGHT + DISTKEY_TEXT
+        #         if key_obj.color == 'black':
+        #             text_musicnoteRect.topright = key_obj.rect.centerx, KEY_HEIGHT + 5 * DISTKEY_TEXT
+        #             text_keyboardRect.topright = key_obj.rect.centerx, KEY_HEIGHT + 0.5 * DISTKEY_TEXT
+        #         elif key_obj.color == 'white':
+        #             KEY_HEIGHT = key_obj.rect.height
+        #             text_musicnoteRect.midtop = key_obj.rect.centerx, KEY_HEIGHT + 6 * DISTKEY_TEXT
+        #             text_keyboardRect.midtop = key_obj.rect.centerx, KEY_HEIGHT + DISTKEY_TEXT
 
-                self.background.blit(text_keyboardSurf, text_keyboardRect)
-                self.background.blit(text_musicnoteSurf, text_musicnoteRect)
+        #         self.background.blit(text_keyboardSurf, text_keyboardRect)
+        #         self.background.blit(text_musicnoteSurf, text_musicnoteRect)
 
         self.screen.blit(self.background, (0, 0))  # draw the background on screen
         pygame.display.flip()  # then flip it
