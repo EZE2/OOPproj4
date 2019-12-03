@@ -32,11 +32,15 @@ class Instrument:
 
 
 midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
+inst1 = Instrument(2)
+
+key_list = ['q', 'w', 'e', 'r', 't']
+note_list = [59, 62, 64, 66, 68]
 
 
-def inst_key_pressed(inst, inst_name):
+def inst_key_pressed(instrument, inst_name):
     print("change instrument:" + inst_name)
-    inst.set_instrument(midi_dic[inst_name])
+    instrument.set_instrument(midi_dic[inst_name])
 
 
 def change_inst_key(instrument):
@@ -47,32 +51,33 @@ def change_inst_key(instrument):
             inst_key_pressed(instrument, 'acoustic guitar')
 
 
-def key_input(key, note, instrument):
+def key_input(key_, note_, instrument):
     while True:
-        if keyboard.is_pressed(key):
+        if keyboard.is_pressed(key_):
             print("q pressed!")
-            instrument.note_on(note)
+            instrument.note_on(note_)
             # player.note_on(60, 127, 1) # 첫 파라미터가 음 60이 도
-            while keyboard.is_pressed(key):
+            while keyboard.is_pressed(key_):
                 time.sleep(0.01)
         else:
-            inst1.note_off(note)
-            # player.note_off(60, 127, 1)
+            instrument.note_off(note_)
 
-key_list = ['q', 'w', 'e', 'r', 't']
-for i in key_list:
-    globals()['thread_{}'.format(list)]
 
-def key_initializer()
+def thread_initializer(_key_list, _note_list, _instrument):
+    thread1 = threading.Thread(target=key_input, args=(_key_list[0], _note_list[0], _instrument))
+    thread2 = threading.Thread(target=key_input, args=(_key_list[1], _note_list[1], _instrument))
+    thread3 = threading.Thread(target=key_input, args=(_key_list[2], _note_list[2], _instrument))
+    thread4 = threading.Thread(target=key_input, args=(_key_list[3], _note_list[3], _instrument))
+    thread_inst = threading.Thread(target=change_inst_key, args=(inst1,))
+    thread1.start()
+    thread2.start()
+    thread3.start()
+    thread4.start()
+    thread_inst.start()
 
-inst1 = Instrument(2)
-thread_q = threading.Thread(target=key_input, args=('q', 60, inst1))
-thread_w = threading.Thread(target=key_input, args=('w', 62, inst1))
-thread_e = threading.Thread(target=key_input, args=('e', 64, inst1))
-thread_inst = threading.Thread(target=change_inst_key, args=(inst1,))  # 연산 순서 목적으로 괄호 사용하지 않음
+#for key, note in key_list, note_list:
+#    globals()['thread_{}'.format(key)] = threading.Thread(target=key_input, args=(key, note, inst1))
+# 안대네
 
-# key_input('q', 60)
-thread_q.start()
-thread_w.start()
-thread_e.start()
-thread_inst.start()
+thread_initializer(key_list, note_list, inst1)
+
