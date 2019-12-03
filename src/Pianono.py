@@ -13,34 +13,34 @@ KEYBOARDX  = 5   # Top left of the full keyboard
 KEYBOARDY  = 5   # Top left of the full keyboard
 KEYBETWEEN = 0   # distance between the key
 KEY_HEIGHT = 0   # height of white key (useful for put the text at the right distance
-# DISTKEY_TEXT = 10  # distance between the key and the text with the name of the key below
-BLUE  = (0,   0, 255)
-BLACK = (0,   0,   0)
+# DISTKEY_TEXT = 10     # distance between the key and the text with the name of the key below
+# BLUE  = (0,   0, 255) # txt color(RGB)
+# BLACK = (0,   0,   0)
 
-QWERTY_SCANCODE_UNICODE = dict(zip([  # correspondance Qwerty keyboard with its scancode
-    49, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-    38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 51,
-    50, 94, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62
-], [
-    '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
-    'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\',
-    'lsh', '<', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'rsh'
-]))
+# QWERTY_SCANCODE_UNICODE = dict(zip([  # correspondance Qwerty keyboard with its scancode
+#     49, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+#     23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+#     38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 51,
+#     50, 94, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62
+# ], [
+#     '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
+#     'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+#     'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\',
+#     'lsh', '<', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'rsh'
+# ]))
 
 # DEFINING THE KEYBOARD SETTING:
 # we use 'freesound_med' folder with 4 octaves: C2 to G5
 # Create the list of note filenames, sorted according to classic notation c, db, d, eb, etc...
 pygame.mixer.pre_init(44100, -16, 2, 4096)  # setup mixer to avoid sound lag
-music_order = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
+# music_order = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
 note_sounds = []  # list of all the note filename
-for octave in range(2, 6):
-    for idx, insidenote in enumerate(music_order):
-        note_sounds.append(pygame.mixer.Sound(
-            # it needs 16bits audio files:
-            # wav files make it crash after some times...
-            os.path.join('pythonpiano_sounds', '16_piano-med-' + insidenote + str(octave) + '.ogg')))
+# for octave in range(2, 6):
+#     for idx, insidenote in enumerate(music_order):
+#         note_sounds.append(pygame.mixer.Sound(
+#             # it needs 16bits audio files:
+#             # wav files make it crash after some times...
+#             os.path.join('pythonpiano_sounds', '16_piano-med-' + insidenote + str(octave) + '.ogg')))
 
 # Create a dict of filename sound, and keyboard key:
 with open('computer_typewriter.kb', 'r') as f:
@@ -83,20 +83,20 @@ class Key(pygame.sprite.Sprite):
 class Game(object):
     def __init__(self):
         # Qwerty or Azerty keyboard depending on command line arguments:
-        if len(sys.argv) == 1:
-            SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
-        elif len(sys.argv) > 2:
-            print("You need to provide only one argument: for example: 'python pypiano.pi azerty'")
-            sys.exit()
-        else:
-            arg = sys.argv[1].upper()
-            if arg == "QWERTY":
-                SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
-            # elif arg == "AZERTY":
-            #    SCANCODE_UNICODE = AZERTY_SCANCODE_UNICODE
-            else:
-                print("Not a valid argument. Valid example: 'python pypiano.pi azerty'")
-                sys.exit()
+        # if len(sys.argv) == 1:
+        #     SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
+        # elif len(sys.argv) > 2:
+        #     print("You need to provide only one argument: for example: 'python pypiano.pi azerty'")
+        #     sys.exit()
+        # else:
+        #     arg = sys.argv[1].upper()
+        #     if arg == "QWERTY":
+        #         SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
+        #     # elif arg == "AZERTY":
+        #     #    SCANCODE_UNICODE = AZERTY_SCANCODE_UNICODE
+        #     else:
+        #         print("Not a valid argument. Valid example: 'python pypiano.pi azerty'")
+        #         sys.exit()
 
         # Draw the background:
         self.screen = pygame.display.set_mode((1024, 300))        # set screensize of pygame window
