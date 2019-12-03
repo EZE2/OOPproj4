@@ -1,7 +1,7 @@
 import time
 
-'''timer start whem push the key'''
-''' 'c:\users\default\desktop'       default file location?'''
+#timer start whem push the key?
+#c:\users\default\desktop default file location?
 
 class note_class:
     def __init__(self,key,interval):
@@ -18,6 +18,9 @@ class sheet_class:
         self.note_list = list()
         self.title="title of the song : "
         self.instrument=1
+        self.set_title()
+        self.set_instrument()
+        
 
     def add_to_sheet(self, note):
         if len(self.note_list)==0 :
@@ -40,3 +43,6 @@ class sheet_class:
             print("u chosed wrong instrument")
 
         self.instrument=tmp
+        
+    def get_instrument(self):
+        return self.instrument
