@@ -33,8 +33,10 @@ class Instrument:
 
 midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
 inst1 = Instrument(2)
+inst2 = Instrument(2)
 
 key_list = ['q', 'w', 'e', 'r', 't']
+key_list2 = ['a', 's', 'd', 'f', 'g']
 note_list = [60, 62, 64, 65, 67]
 
 
@@ -83,3 +85,4 @@ def thread_initializer(_key_list, _note_list, _instrument):
 # 안대네
 
 thread_initializer(key_list, note_list, inst1)
+thread_initializer(key_list2, note_list, inst2)
