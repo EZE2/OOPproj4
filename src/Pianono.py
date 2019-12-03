@@ -8,7 +8,6 @@ import os
 import sys
 import pygame
 from pygame.locals import *
-import pygame.midi
 
 pygame.init()
 
@@ -23,17 +22,17 @@ KEY_HEIGHT = 0   # height of white key (useful for put the text at the right dis
 # BLUE  = (0,   0, 255) # txt color(RGB)
 # BLACK = (0,   0,   0)
 
-# QWERTY_SCANCODE_UNICODE = dict(zip([  # correspondance Qwerty keyboard with its scancode
-#     49, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-#     23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-#     38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 51,
-#     50, 94, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62
-# ], [
-#     '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
-#     'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-#     'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\',
-#     'lsh', '<', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'rsh'
-# ]))
+QWERTY_SCANCODE_UNICODE = dict(zip([  # correspondance Qwerty keyboard with its scancode
+    49, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+    38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 51,
+    50, 94, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62
+], [
+    '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
+    'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\',
+    'lsh', '<', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'rsh'
+]))
 
 # DEFINING THE KEYBOARD SETTING:
 # we use 'freesound_med' folder with 4 octaves: C2 to G5
@@ -82,7 +81,7 @@ class Key(pygame.sprite.Sprite):
     def update(self):
         if self.pressed:
             self.image = self._img_down
-            # print("the key {} is being pressed".format(self.keyevent))
+            print("the key {} is being pressed".format(self.keyevent))
         else:
             self.image = self._img_up
 
@@ -90,15 +89,15 @@ class Key(pygame.sprite.Sprite):
 class Game(object):
     def __init__(self):
         # Qwerty or Azerty keyboard depending on command line arguments:
-        # if len(sys.argv) == 1:
-        #     SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
-        # elif len(sys.argv) > 2:
-        #     print("You need to provide only one argument: for example: 'python pypiano.pi azerty'")
-        #     sys.exit()
-        # else:
-        #     arg = sys.argv[1].upper()
-        #     if arg == "QWERTY":
-        #         SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
+        if len(sys.argv) == 1:
+            SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
+        elif len(sys.argv) > 2:
+            print("You need to provide only one argument: for example: 'python pypiano.pi azerty'")
+            sys.exit()
+        else:
+            arg = sys.argv[1].upper()
+            if arg == "QWERTY":
+                SCANCODE_UNICODE = QWERTY_SCANCODE_UNICODE
         #     # elif arg == "AZERTY":
         #     #    SCANCODE_UNICODE = AZERTY_SCANCODE_UNICODE
         #     else:
