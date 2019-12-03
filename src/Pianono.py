@@ -33,9 +33,9 @@ KEY_HEIGHT = 0   # height of white key (useful for put the text at the right dis
 # DEFINING THE KEYBOARD SETTING:
 # we use 'freesound_med' folder with 4 octaves: C2 to G5
 # Create the list of note filenames, sorted according to classic notation c, db, d, eb, etc...
-pygame.mixer.pre_init(44100, -16, 2, 4096)  # setup mixer to avoid sound lag
+# pygame.mixer.pre_init(44100, -16, 2, 4096)  # setup mixer to avoid sound lag
 # music_order = ['c', 'db', 'd', 'eb', 'e', 'f', 'gb', 'g', 'ab', 'a', 'bb', 'b']
-note_sounds = []  # list of all the note filename
+# note_sounds = []  # list of all the note filename
 # for octave in range(2, 6):
 #     for idx, insidenote in enumerate(music_order):
 #        note_sounds.append(pygame.mixer.Sound(
@@ -46,7 +46,7 @@ note_sounds = []  # list of all the note filename
 # Create a dict of filename sound, and keyboard key:
 with open('computer_typewriter.kb', 'r') as f:
     KEY_ASCII = f.read().split('\n')
-KEY_SOUND = dict(zip(KEY_ASCII, note_sounds))  # Keyboard with the corresponding sound filename
+# KEY_SOUND = dict(zip(KEY_ASCII, note_sounds))  # Keyboard with the corresponding sound filename
 IS_PLAYING = {k: False for k in KEY_ASCII}     # Dict of the note to know whether it's playing or not.
 
 
@@ -206,8 +206,7 @@ class Game(object):
                     if keyobj.keyevent == key:
                         keyobj.pressed = True
 
-
-            elif event.type == KEYUP: # and key in KEY_SOUND.keys():
+            elif event.type == KEYUP:  # and key in KEY_SOUND.keys():
                 # Stops with 50ms fadeout
                 # KEY_SOUND[key].fadeout(500)
                 IS_PLAYING[key] = False
