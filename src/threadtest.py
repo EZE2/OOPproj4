@@ -1,6 +1,7 @@
 import threading
 import time
 import keyboard
+
 #keyboard 모듈 필요 pip3 install keyboard
 
 

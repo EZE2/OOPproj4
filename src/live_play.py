@@ -83,6 +83,6 @@ def thread_initializer(_key_list, _note_list, _instrument):
 #for key, note in key_list, note_list:
 #    globals()['thread_{}'.format(key)] = threading.Thread(target=key_input, args=(key, note, inst1))
 # 안대네
-
-thread_initializer(key_list, note_list, inst1)
-thread_initializer(key_list2, note_list, inst2)
+if __name__ == "__main__":
+    thread_initializer(key_list, note_list, inst1)
+    thread_initializer(key_list2, note_list, inst2)

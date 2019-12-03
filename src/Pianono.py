@@ -1,3 +1,8 @@
+"""
+Modified by Kim MinGyu
+Last Modification : 2019.12.03.
+"""
+
 #-*coding:utf-8-*-
 import os
 import sys
@@ -43,11 +48,12 @@ KEY_HEIGHT = 0   # height of white key (useful for put the text at the right dis
 #            # wav files make it crash after some times...
 #            os.path.join('pythonpiano_sounds', '16_piano-med-' + insidenote + str(octave) + '.ogg')))
 
+# 여기 이 부분이 키보드 입력 정의 부분
 # Create a dict of filename sound, and keyboard key:
 with open('computer_typewriter.kb', 'r') as f:
     KEY_ASCII = f.read().split('\n')
-# KEY_SOUND = dict(zip(KEY_ASCII, note_sounds))  # Keyboard with the corresponding sound filename
 IS_PLAYING = {k: False for k in KEY_ASCII}     # Dict of the note to know whether it's playing or not.
+# KEY_SOUND = dict(zip(KEY_ASCII, note_sounds))  # Keyboard with the corresponding sound filename
 
 
 # Create the Key sprites:
