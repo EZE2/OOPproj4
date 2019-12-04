@@ -1,6 +1,6 @@
 """
 Modified by Kim MinGyu
-Last Modification : 2019.12.03.
+Last Modification : 2019.12.04.
 """
 
 import os
@@ -94,7 +94,7 @@ class Game:
 
             # render our sprites
             self.keysprites.clear(self.screen,
-                                  self.background)  # clears the window where the sprites currently are, using the background
+                                  self.background)  # clear the window where the sprites currently are, using the background
             dirty = self.keysprites.draw(self.screen)  # calculates the 'dirty' rectangles that need to be redrawn
 
             # blit the dirty areas of the screen
@@ -127,3 +127,8 @@ class Game:
                     if keyobj.keyevent == key:
                         keyobj.pressed = False
         return True
+
+
+if __name__ == "__main__":
+    game = Game()
+    game.run()
