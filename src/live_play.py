@@ -1,3 +1,14 @@
+"""
+    coded by HJun -메뉴얼
+    라이브 플레이를 위한 코드입니다.
+    악기 객체를 생성하고,
+    threadinitializer(키배열,노트배열,악기)를 실행하면 Liveplay가 가능합니다
+    기본적인 악기 교체는 1, 2번 키를 할당해두었으나, 추후 수정시 간단하게 수정 가능합니다.
+    0 누르면 모든 스레드 종료
+    
+"""
+
+
 import keyboard
 import pygame
 import time
@@ -32,8 +43,7 @@ class Instrument:
 
 
 midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
-inst1 = Instrument(2)
-inst2 = Instrument(2)
+
 
 key_list = ['q', 'w', 'e', 'r', 't']
 key_list2 = ['a', 's', 'd', 'f', 'g']
@@ -51,7 +61,8 @@ def change_inst_key(instrument):
             inst_key_pressed(instrument, 'piano')
         elif keyboard.is_pressed('2'):
             inst_key_pressed(instrument, 'acoustic guitar')
-
+        elif keyboard.is_pressed('0'):
+            return
 
 def key_input(_key, _note, instrument):
     while True:
@@ -63,15 +74,17 @@ def key_input(_key, _note, instrument):
                 time.sleep(0.001)
             else:                           # 뗄 때
                 instrument.note_off(_note)
-
+        elif keyboard.is_pressed('0'):
+            return
+        
 
 def thread_initializer(_key_list, _note_list, _instrument):
-    thread1 = threading.Thread(target=key_input, args=(_key_list[0], _note_list[0], _instrument))
-    thread2 = threading.Thread(target=key_input, args=(_key_list[1], _note_list[1], _instrument))
-    thread3 = threading.Thread(target=key_input, args=(_key_list[2], _note_list[2], _instrument))
-    thread4 = threading.Thread(target=key_input, args=(_key_list[3], _note_list[3], _instrument))
-    thread5 = threading.Thread(target=key_input, args=(_key_list[4], _note_list[4], _instrument))
-    thread_inst = threading.Thread(target=change_inst_key, args=(inst1,))
+    thread1 = threading.Thread(target=key_input, args=(_key_list[0], _note_list[0], _instrument), daemon=True)
+    thread2 = threading.Thread(target=key_input, args=(_key_list[1], _note_list[1], _instrument), daemon=True)
+    thread3 = threading.Thread(target=key_input, args=(_key_list[2], _note_list[2], _instrument), daemon=True)
+    thread4 = threading.Thread(target=key_input, args=(_key_list[3], _note_list[3], _instrument), daemon=True)
+    thread5 = threading.Thread(target=key_input, args=(_key_list[4], _note_list[4], _instrument), daemon=True)
+    thread_inst = threading.Thread(target=change_inst_key, args=(inst1,), daemon=True)
     thread1.start()
     thread2.start()
     thread3.start()
@@ -80,9 +93,14 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread_inst.start()
 
 
-#for key, note in key_list, note_list:
+# for key, note in key_list, note_list:
 #    globals()['thread_{}'.format(key)] = threading.Thread(target=key_input, args=(key, note, inst1))
 # 안대네
 if __name__ == "__main__":
+
+    inst1 = Instrument(2)
+    inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list, inst2)
+
+
