@@ -31,12 +31,16 @@ class sheet_class:
         self.time_first_note_pushed=0
         
     def add_to_sheet(self, note):
-        self.note_list.append(note)
         if not self.note_list :
             self.time_first_note_pushed=note.time
+            note.time=0
+            self.note_list.append(note)
             # we should assemble all notes in order
-            # time_first_note_pushed means the time first note making a self.time
-            # time() is not initialized as a starting point is not 0. so by using first_note_pushed, it can comfort the time variable.
+            # time_first_note_pushed is the time first note making a self.time
+            # because time() is not initialized so the starting point is not 0. By using first_note_pushed, it can comfort the time difference
+        else :
+            note.time=note.time-self.time_first_note_pushed
+            self.note_list.append(note)
             
     def set_title(self):
         tmp=input("type the title of the song you will play : " )
