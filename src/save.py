@@ -23,6 +23,8 @@ pygame.midi.init()
 def pressed(event):
     if event.char in key_list:
         print(event)
+    elif event.char in key_list2:
+        print(event)
 
 
 class KeyboardGUI:
