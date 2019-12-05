@@ -20,20 +20,25 @@ from tkinter import *
 pygame.midi.init()
 
 
+def pressed(event):
+    if event.char in key_list:
+        print(event)
+
+
 class KeyboardGUI:
     def __init__(self):
         scales = 1
         root.geometry('{}x200'.format(300 * scales))
         white_keys = 10 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1] * scales
-        root.bind('<Key>', self.pressed)
+        root.bind('<Key>', pressed)
         for i in range(white_keys):
-            self.button = Button(root, bg='white', activebackground='gray87', command=lambda i=i: self.pressed)
+            self.button = Button(root, bg='white', activebackground='gray87', command=lambda i=i: pressed)
             self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
 
         for i in range(white_keys - 1):
             if black[i]:
-                self.button = Button(root, bg='black', activebackground='gray12', command=lambda i=i: self.pressed)
+                self.button = Button(root, bg='black', activebackground='gray12', command=lambda i=i: pressed)
                 self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
 
         for i in range(white_keys * 3):
@@ -42,9 +47,7 @@ class KeyboardGUI:
         for i in range(2):
             root.rowconfigure(i, weight=1)
 
-    def pressed(self, event=None):
-        if self in key_list:
-            print('hi')
+
 
 # class KeyInputManager:
 #    def key_input(self, key, note):
@@ -125,10 +128,12 @@ def thread_initializer(_key_list, _note_list, _instrument):
 #    globals()['thread_{}'.format(key)] = threading.Thread(target=key_input, args=(key, note, inst1))
 # 안대네
 if __name__ == "__main__":
+    root = Tk()
+    keyboardgui = KeyboardGUI()
+
     inst1 = Instrument(2)
     inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list, inst2)
-    root = Tk()
-    keyboardgui = KeyboardGUI()
     root.mainloop()
+
