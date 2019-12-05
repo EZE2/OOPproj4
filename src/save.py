@@ -30,7 +30,7 @@ pygame.midi.init()
 
 # 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
 white_button_list = ['a','s','d','f','g']
-black_button_list = ['q','w','e','r','t']
+black_button_list = ['w', 'e', 't', 'y', 'i']
 
 
 class WhitePianoButton(Button):
@@ -118,9 +118,10 @@ class Instrument:
 
 midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
 
-key_list = ['q', 'w', 'e', 'r', 't']
-key_list2 = ['a', 's', 'd', 'f', 'g']
+key_list = ['a', 's', 'd', 'f', 'g']
+key_list2 = ['w', 'e', 't', 'y', 'i']
 note_list = [60, 62, 64, 65, 67]
+note_list2 = [61, 63, 66, 68, 70]
 
 
 def inst_key_pressed(instrument, inst_name):
@@ -191,6 +192,6 @@ if __name__ == "__main__":
     inst1 = Instrument(2)
     inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
-    thread_initializer(key_list2, note_list, inst2)
+    thread_initializer(key_list2, note_list2, inst2)
     root.mainloop()
 
