@@ -64,6 +64,7 @@ def change_inst_key(instrument):
         elif keyboard.is_pressed('0'):
             return
 
+
 def key_input(_key, _note, instrument):
     while True:
         if keyboard.is_pressed(_key):   # 눌릴때
