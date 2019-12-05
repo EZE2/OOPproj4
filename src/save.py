@@ -20,11 +20,8 @@ from tkinter import *
 pygame.midi.init()
 
 
-def pressed(event):
-    if event.char in key_list:
-        print(event)
-    elif event.char in key_list2:
-        print(event)
+white_buttonlist = [ "WKEY1, WKEY2, WKEY3, WKEY4, WKEY5, WKEY6, WKEY7, WKEY8, WKEY9, WKEY10" ]
+black_buttonlist = [ "BKEY1", "BKEY2", "BKEY3", "BKEY4", "BKEY5", "BKEY6", "BKEY7", "BKEY8", "BKEY9" ]
 
 
 class KeyboardGUI:
@@ -33,15 +30,15 @@ class KeyboardGUI:
         root.geometry('{}x200'.format(300 * scales))
         white_keys = 10 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1] * scales
-        root.bind('<Key>', pressed)
-        for i in range(white_keys):
-            self.button = Button(root, bg='white', activebackground='gray87', command=lambda i=i: pressed)
-            self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
+        root.bind('<Key>', self.pressed)
+        for i, white_buttonlist in enumerate(white_buttonlist):
+            tk.Button(root, bg='white', activebackground='gray87', command=lambda value=i: self.pressed())
+            white_buttonlist[i].grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
 
-        for i in range(white_keys - 1):
+        for i in range(len(black_buttonlist)):
             if black[i]:
-                self.button = Button(root, bg='black', activebackground='gray12', command=lambda i=i: pressed)
-                self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
+                black_buttonlist[i] = Button(root, bg='black', activebackground='gray12', command=lambda value=i: self.pressed())
+                black_buttonlist[i].grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
 
         for i in range(white_keys * 3):
             root.columnconfigure(i, weight=1)
@@ -49,7 +46,13 @@ class KeyboardGUI:
         for i in range(2):
             root.rowconfigure(i, weight=1)
 
-
+    def pressed(self, event):
+        if event.char in key_list:
+            white_buttonlist['background'] = 'gray87'
+            print(event)
+        elif event.char in key_list2:
+            black_buttonlist['background'] = 'blue'
+            print(event)
 
 # class KeyInputManager:
 #    def key_input(self, key, note):
