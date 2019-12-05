@@ -8,6 +8,15 @@
 
 """
 
+""" 12.06 EZE2
+파일 정리 절실히 필요함.
+특히 쓰레딩 관련 함수 빼고 나머지는 전부 따로 파일로 빼야하고
+안쓰는 코드들은 지우고, 분리할건 분리해야 함.
+
+key_input 에서 저장, 재생, GUI 변경 모두 처리할거임.
+"""
+
+
 import keyboard
 import pygame
 import time
@@ -19,26 +28,61 @@ from tkinter import *
 
 pygame.midi.init()
 
+# 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
+white_button_list = ['a','s','d','f','g']
+black_button_list = ['q','w','e','r','t']
 
-white_buttonlist = [ "WKEY1, WKEY2, WKEY3, WKEY4, WKEY5, WKEY6, WKEY7, WKEY8, WKEY9, WKEY10" ]
-black_buttonlist = [ "BKEY1", "BKEY2", "BKEY3", "BKEY4", "BKEY5", "BKEY6", "BKEY7", "BKEY8", "BKEY9" ]
+
+class WhitePianoButton(Button):
+
+    def makename(self,name):
+        self.name = name
+        self.isPressed = False
+
+    def update(self):
+        if self.isPressed:
+            self.isPressed = False
+            self.configure(bg="white")
+        else:
+            self.isPressed = True
+            self.configure(bg="red")
+
+
+class BlackPianoButton(Button):
+    def makename(self,name):
+        self.name = name
+        self.isPressed = False
+
+    def update(self):
+        if self.isPressed:
+            self.isPressed = False
+            self.configure(bg="black")
+        else:
+            self.isPressed = True
+            self.configure(bg="red")
+
 
 
 class KeyboardGUI:
+    button_list = list()
     def __init__(self):
         scales = 1
         root.geometry('{}x200'.format(300 * scales))
-        white_keys = 10 * scales
+        white_keys = 5 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1] * scales
-        root.bind('<Key>', self.pressed)
-        for i, white_buttonlist in enumerate(white_buttonlist):
-            tk.Button(root, bg='white', activebackground='gray87', command=lambda value=i: self.pressed())
-            white_buttonlist[i].grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
+        # root.bind('<Key>', pressed)
+        for i in range(white_keys):
+            self.button = WhitePianoButton(root, bg='white', activebackground='gray87')
+            self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
+            self.button.makename(white_button_list[i])
+            KeyboardGUI.button_list.append(self.button)
 
-        for i in range(len(black_buttonlist)):
+        for i in range(white_keys - 1):
             if black[i]:
-                black_buttonlist[i] = Button(root, bg='black', activebackground='gray12', command=lambda value=i: self.pressed())
-                black_buttonlist[i].grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
+                self.button = BlackPianoButton(root, bg='black', activebackground='gray12')
+                self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
+                self.button.makename(black_button_list[i])
+                KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys * 3):
             root.columnconfigure(i, weight=1)
@@ -46,13 +90,7 @@ class KeyboardGUI:
         for i in range(2):
             root.rowconfigure(i, weight=1)
 
-    def pressed(self, event):
-        if event.char in key_list:
-            white_buttonlist['background'] = 'gray87'
-            print(event)
-        elif event.char in key_list2:
-            black_buttonlist['background'] = 'blue'
-            print(event)
+
 
 # class KeyInputManager:
 #    def key_input(self, key, note):
@@ -99,17 +137,31 @@ def change_inst_key(instrument):
         elif keyboard.is_pressed('0'):
             return
 
+"""
+이 프로그램의 핵심 함수임.
+key_input 안에 필요한 기능 다 집어넣을 것!!
+파라미터 추가하는 방식으로 저장도 이걸로 구현할 것을 권장함.
+"""
+
 
 def key_input(_key, _note, instrument):
     while True:
-        if keyboard.is_pressed(_key):  # 눌릴때
+        if keyboard.is_pressed(_key):
+            # 눌릴때
             print("Key pressed!")
             instrument.note_on(_note)
+            for button in KeyboardGUI.button_list:
+                if button.name == _key:
+                    button.update()
             # player.note_on(60, 127, 1) # 첫 파라미터가 음 60이 도
             while keyboard.is_pressed(_key):
                 time.sleep(0.001)
             else:  # 뗄 때
                 instrument.note_off(_note)
+                for button in KeyboardGUI.button_list:
+                    if button.name == _key:
+                        button.update()
+
         elif keyboard.is_pressed('0'):
             return
 

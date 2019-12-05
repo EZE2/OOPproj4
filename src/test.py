@@ -9,6 +9,8 @@ pygame.midi.init()
 
 
 class KeyboardGUI:
+
+    button_list = []
     def __init__(self):
         scales = 1
         root.geometry('{}x200'.format(300 * scales))
