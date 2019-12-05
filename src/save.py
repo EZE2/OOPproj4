@@ -30,7 +30,7 @@ pygame.midi.init()
 
 # 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
 white_button_list = ['a','s','d','f','g']
-black_button_list = ['w', 'e', 't', 'y', 'i']
+black_button_list = ['w', 'e', 'z', 't', 'i']
 
 
 class WhitePianoButton(Button):
