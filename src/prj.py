@@ -96,7 +96,7 @@ class KeyboardGUI:
             root.rowconfigure(i, weight=1)
 
 
-#note_class will make a note obj having a key, duration, played time
+# note_class will make a note obj having a key, duration, played time
 class note_class:
     def __init__(self):
         self.note_key=0
@@ -110,7 +110,7 @@ class note_class:
     def set_duration(self,duration):
         self.note_duration=duration
 
-#sheet_class will make a sheet obj that starts with key_input and makes list consisting of note objs
+# sheet_class will make a sheet obj that starts with key_input and makes list consisting of note objs
 class sheet_class:
     def __init__(self):
         self.note_list = list()
@@ -124,8 +124,8 @@ class sheet_class:
             note.time=0
             self.note_list.append(note)
             # we should assemble all notes in order
-            # time_first_note_pushed is the time first note making a self.time
-            # because time() is not initialized so the starting point is not 0. By using first_note_pushed, it can comfort the time difference
+            # time_first_note_pushed is the time when first note initializes a self.time
+            # because time() is not initialized to 0,By using first_note_pushed, it can arrange times
         else :
             note.time=note.time-self.time_first_note_pushed
             self.note_list.append(note)
@@ -137,7 +137,7 @@ class sheet_class:
     def get_instrument(self):
         return self.instrument
     
-
+# making_txt func is to make txt file showing the sheet in the folder where prj.py is
 def making_txt(sheet):
     file = open(f'{tmp_sheet.title}.txt', 'w', encoding='utf8')
     for i in tmp_sheet.note_list:
@@ -171,6 +171,7 @@ class Instrument:
 
 midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi �몴 -1 = �븙湲곕쾲�샇
 
+# q is for declare end of sheet. you can check this in key_input func
 key_list = ['a', 's', 'd', 'f', 'g', 'q']
 key_list2 = ['w', 'e', 't', 'y', 'i', 'q']
 note_list = [60, 62, 64, 65, 67]
@@ -197,6 +198,9 @@ key_input �븞�뿉 �븘�슂�븳 湲곕뒫 �떎 吏묒뼱�꽔�쓣
 �뙆�씪誘명꽣 異붽��븯�뒗 諛⑹떇�쑝濡� ���옣�룄 �씠嫄몃줈 援ы쁽�븷 寃껋쓣 沅뚯옣�븿.
 """
 
+# key input_n func is to play the note_on in pygame.
+# key input func is to figure out the end of the song
+# to distinguish when to make txt, i made key_input func and thread 6. -rojong00
 def key_input(_key,_note,instrument):
     while True:
         if keyboard.is_pressed(_key):
@@ -205,6 +209,9 @@ def key_input(_key,_note,instrument):
         elif keyboard.is_pressed('0'):
             return    
 
+# in key_input_n func, 
+# declare note_class obj, convey the key pushed to .note_on, play a live music, 
+# and add note_class obj to sheet_obj
 def key_input_1(_key, _note, instrument):
     while True:
         tmp_note_1=note_class()
