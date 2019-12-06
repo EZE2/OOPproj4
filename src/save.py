@@ -17,7 +17,7 @@ class note_class:
     def __init__(self,key,duration):
         self.note_key=key
         self.note_duration=duration
-        self.time = time.time()
+        self.time = round(time.time(),3)
         # after keyboard.is_pressed(key): ,  inst1.note_on(note) && declare note object
 
 

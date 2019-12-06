@@ -141,7 +141,8 @@ class sheet_class:
 def making_txt(sheet):
     file = open(f'{tmp_sheet.title}.txt', 'w', encoding='utf8')
     for i in tmp_sheet.note_list:
-        line=f'{i.note_key} {i.note_duration} {i.time}\n'
+        time=round(i.time,3)
+        line=f'{i.note_key} {i.note_duration} {time},3)\n'
         file.write(line)
     
 # class KeyInputManager:
@@ -211,7 +212,7 @@ def key_input_1(_key, _note, instrument):
             # �닃由대븣
             print("Key pressed!")
             instrument.note_on(_note)
-            start_time=time.time()
+            start_time=round(time.time(),3)
             tmp_note_1.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
@@ -225,8 +226,8 @@ def key_input_1(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
 
-            end_time=time.time()
-            tmp_note_1.set_duration(end_time-start_time)
+            end_time=round(time.time(),3)
+            tmp_note_1.set_duration(round(end_time-start_time,3))
             tmp_sheet.add_to_sheet(tmp_note_1)
             
         elif keyboard.is_pressed('0'):
@@ -240,7 +241,7 @@ def key_input_2(_key, _note, instrument):
             # �닃由대븣
             print("Key pressed!")
             instrument.note_on(_note)
-            start_time=time.time()
+            start_time=round(time.time(),3)
             tmp_note_2.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
@@ -255,8 +256,8 @@ def key_input_2(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
             
-            end_time=time.time()
-            tmp_note_2.set_duration(end_time-start_time)
+            end_time=round(time.time(),3)
+            tmp_note_2.set_duration(round(end_time-start_time,3))
             tmp_sheet.add_to_sheet(tmp_note_2)
    
         elif keyboard.is_pressed('0'):
@@ -269,7 +270,7 @@ def key_input_3(_key, _note, instrument):
             # �닃由대븣
             print("Key pressed!")
             instrument.note_on(_note)
-            start_time=time.time()
+            start_time=round(time.time(),3)
             tmp_note_3.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
@@ -284,8 +285,8 @@ def key_input_3(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
             
-            end_time=time.time()
-            tmp_note_3.set_duration(end_time-start_time)
+            end_time=round(time.time(),3)
+            tmp_note_3.set_duration(round(end_time-start_time,3))
             tmp_sheet.add_to_sheet(tmp_note_3)
 
         elif keyboard.is_pressed('0'):
@@ -298,7 +299,7 @@ def key_input_4(_key, _note, instrument):
             # �닃由대븣
             print("Key pressed!")
             instrument.note_on(_note)
-            start_time=time.time()
+            start_time=round(time.time(),3)
             tmp_note_4.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
@@ -313,8 +314,8 @@ def key_input_4(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
             
-            end_time=time.time()
-            tmp_note_4.set_duration(end_time-start_time)
+            end_time=round(time.time(),3)
+            tmp_note_4.set_duration(round(end_time-start_time,3))
             tmp_sheet.add_to_sheet(tmp_note_4)
             
         elif keyboard.is_pressed('0'):
@@ -328,7 +329,7 @@ def key_input_5(_key, _note, instrument):
             print("Key pressed!")
             instrument.note_on(_note)
             tmp_note_5=note_class()
-            start_time=time.time()
+            start_time=round(time.time(),3)
             tmp_note_5.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
@@ -343,8 +344,8 @@ def key_input_5(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
 
-            end_time=time.time()
-            tmp_note_5.set_duration(end_time-start_time)
+            end_time=round(time.time(),3)
+            tmp_note_5.set_duration(round(end_time-start_time,3))
             tmp_sheet.add_to_sheet(tmp_note_5)
 
         elif keyboard.is_pressed('0'):
