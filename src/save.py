@@ -67,19 +67,19 @@ class KeyboardGUI:
         root.configure(background='white')
 
         scales = 1
-        root.geometry('{}x300'.format(600 * scales))
+        root.geometry('{}x600'.format(900 * scales))
         white_keys = 10 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
         # root.bind('<Key>', pressed)
         for i in range(white_keys):
-            self.button = WhitePianoButton(root, relief='raised', bg='white', activebackground='gray87')
+            self.button = WhitePianoButton(root, relief='raised', bg='white', bd=3, activebackground='gray87')
             self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
             self.button.makename(white_button_list[i])
             KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys - 1):
             if black[i]:
-                self.button = BlackPianoButton(root, relief='ridge', bg='black', activebackground='gray12')
+                self.button = BlackPianoButton(root, relief='ridge', bg='black', bd=4, activebackground='gray12')
                 self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
                 self.button.makename(black_button_list[i])
                 KeyboardGUI.button_list.append(self.button)
@@ -97,6 +97,10 @@ class MyFrame:
         right_frame.grid(row=0, column=30, sticky='nsew')
         right_frame['borderwidth'] = 0
 
+        bottom_frame = Button(root, height=15, bg='white')
+        bottom_frame.grid(row=4, column=0, sticky='nsew')
+        bottom_frame['borderwidth'] = 0
+
 
 class RecordButton(Button):
     def makename(self, name):
@@ -112,6 +116,7 @@ class RecordButton(Button):
             self.configure(bg='Red', fg='Red')
             while self.isPressed:
                 # 녹화시작
+                print("start record...")
 
 
 class RecordGUI:
@@ -195,9 +200,9 @@ def key_input(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
 
-        elif keyboard.is_pressed('m'):
-            for button in RecordGUI.record_button_list:
-                button.update()
+        #elif keyboard.is_pressed('m'):
+         #   for button in RecordGUI.record_button_list:
+           #     button.update()
 
         elif keyboard.is_pressed('0'):
             return
