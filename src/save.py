@@ -24,9 +24,11 @@ from tkinter import *
 
 pygame.midi.init()
 
+
 # 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
 white_button_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
 black_button_list = ['q', 'w', 'NULL', 'e', 'r', 't', 'NULL', 'y', 'u']
+record_button = ['m']
 
 
 class WhitePianoButton(Button):
@@ -37,10 +39,10 @@ class WhitePianoButton(Button):
     def update(self):
         if self.isPressed:
             self.isPressed = False
-            self.configure(bg="white")
+            self.configure(bg='white')
         else:
             self.isPressed = True
-            self.configure(bg='blue')
+            self.configure(bg='LightSkyBlue')
 
 
 class BlackPianoButton(Button):
@@ -51,16 +53,19 @@ class BlackPianoButton(Button):
     def update(self):
         if self.isPressed:
             self.isPressed = False
-            self.configure(bg="black")
+            self.configure(bg='black')
         else:
             self.isPressed = True
-            self.configure(bg="red")
+            self.configure(bg='DimGray')
 
 
 class KeyboardGUI:
     button_list = list()
 
     def __init__(self):
+        root.title("Virtual Instruments")
+        root.configure(background='white')
+
         scales = 1
         root.geometry('{}x300'.format(600 * scales))
         white_keys = 10 * scales
@@ -86,13 +91,37 @@ class KeyboardGUI:
             root.rowconfigure(i, weight=1)
 
 
-class RecordGUI:
+class MyFrame:
     def __init__(self):
-        root.title("Virtual Instruments")
-        self.record_frame = Frame(root)
-        self.record_label = Label(self.record_frame, text="Start Record")
-        self.record_label.pack(fill="both", expand=False)
-        self.record_frame.grid(row=100, column=0, rowspan=2, sticky="wens", padx=5, pady=5)
+        right_frame = Button(root, width=15, bg='white')
+        right_frame.grid(row=0, column=30, sticky='nsew')
+        right_frame['borderwidth'] = 0
+
+
+class RecordButton(Button):
+    def makename(self, name):
+        self.name = name
+        self.isPressed = False
+
+    def update(self):
+        if self.isPressed:
+            self.isPressed = False
+            self.configure(bg='black', fg='white')
+        else:
+            self.isPressed = True
+            self.configure(bg='Red', fg='Red')
+            while self.isPressed:
+                # 녹화시작
+
+
+class RecordGUI:
+    record_button_list = list()
+
+    def __init__(self):
+        self.button = RecordButton(root, width=7, height=3, text="Record", bg='black', fg='white')
+        self.button.grid(row=0, column=30)
+        self.button.makename(record_button[0])
+        RecordGUI.record_button_list.append(self.button)
 
 
 # class KeyInputManager:
@@ -140,6 +169,7 @@ def change_inst_key(instrument):
         elif keyboard.is_pressed('0'):
             return
 
+
 """
 이 프로그램의 핵심 함수임.
 key_input 안에 필요한 기능 다 집어넣을 것!!
@@ -165,6 +195,10 @@ def key_input(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
 
+        elif keyboard.is_pressed('m'):
+            for button in RecordGUI.record_button_list:
+                button.update()
+
         elif keyboard.is_pressed('0'):
             return
 
@@ -189,13 +223,16 @@ def thread_initializer(_key_list, _note_list, _instrument):
 # 안대네
 if __name__ == "__main__":
     root = Tk()
+    myframe = MyFrame()
     keyboardgui = KeyboardGUI()
     recordgui = RecordGUI()
+
 
     inst1 = Instrument(2)
     inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list, inst2)
-
     root.mainloop()
+
+
 
