@@ -24,6 +24,7 @@ import time
 import pygame.midi
 import threading
 from tkinter import *
+from tkinter import filedialog
 
 # initialize pygame to use
 
@@ -140,6 +141,29 @@ def option(instrument):
             return
 
 
+def make_sheet():
+    root = Tk()
+    root.filename = filedialog.askopenfilename(title="choose txt file",
+                                               filetypes=(("text files", "*.txt"), ("all files", "*.*")))
+
+    f = open(root.filename, 'r')
+    sheet_list = []
+    for item in f.readlines():
+        point = item.split(' ')
+        x = point[0]
+        y = point[1]
+        z = point[2]
+        point_as_array = [x, y, z]
+        sheet_list.append(point_as_array)
+    #print(sheet_list)
+    return sheet_list
+
+def making_txt(sheet):
+    file = open(f'{tmp_sheet.title}.txt', 'w', encoding='utf8')
+    for i in tmp_sheet.note_list:
+        time=round(i.time,3)
+        line=f'{i.note_key} {i.note_duration} {time},3)\n'
+        file.write(line)
 """
 key_input function:
 이 프로그램의 핵심 함수임.
