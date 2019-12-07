@@ -7,6 +7,7 @@ from tkinter import *
 
 pygame.midi.init()
 
+
 class Instrument:
     player = pygame.midi.Output(1)
 
@@ -22,3 +23,4 @@ class Instrument:
 
     def note_off(self, note):
         self.player.note_off(note, 127, 1)
+        

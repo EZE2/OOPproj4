@@ -175,4 +175,3 @@ if __name__ == "__main__":
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list2, inst2)
     root.mainloop()
-    
