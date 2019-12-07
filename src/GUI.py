@@ -96,8 +96,8 @@ class KeyboardGUI:
 
 class RecordGUI:
     def __init__(self):
-        self.record_img = PhotoImage(file=os.path.join(IMG_PATH,'recordbutton.png'))
-        self.stop_img = PhotoImage(file=os.path.join(IMG_PATH,'stopbutton.png'))
+        self.record_img = PhotoImage(file=os.path.join(IMG_PATH, 'recordbutton.png'))
+        self.stop_img = PhotoImage(file=os.path.join(IMG_PATH, 'stopbutton.png'))
 
         self.button = Button(root)
         self.button.config(image=self.record_img, width=95, height=30, bd=0)
@@ -113,9 +113,12 @@ class RecordGUI:
 
     def recording(self):
         self.button.config(image=self.stop_img)
+        # start recording
+        self.button['command'] = self.stop_recording
 
     def stop_recording(self):
         self.button.config(image=self.record_img)
+        self.button['command'] = self.recording
 
 def GUIinit():
     myframe = MyFrame()
