@@ -21,7 +21,6 @@ import time
 import pygame.midi
 import threading
 from tkinter import *
-
 from live_play import Instrument # live_play 구현부분 모듈화
 
 # initialize pygame to use
@@ -60,7 +59,6 @@ class BlackPianoButton(Button):
         else:
             self.isPressed = True
             self.configure(bg="red")
-
 
 
 class KeyboardGUI:
