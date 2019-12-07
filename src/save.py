@@ -1,22 +1,3 @@
-"""
-    coded by HJun -메뉴얼
-    라이브 플레이를 위한 코드입니다.
-    악기 객체를 생성하고,
-    threadinitializer(키배열,노트배열,악기)를 실행하면 Liveplay가 가능합니다
-    기본적인 악기 교체는 1, 2번 키를 할당해두었으나, 추후 수정시 간단하게 수정 가능합니다.
-    0 누르면 모든 스레드 종료
-
-"""
-import tk as tk
-
-""" 12.06 EZE2
-파일 정리 절실히 필요함.
-특히 쓰레딩 관련 함수 빼고 나머지는 전부 따로 파일로 빼야하고
-안쓰는 코드들은 지우고, 분리할건 분리해야 함.
-
-key_input 에서 저장, 재생, GUI 변경 모두 처리할거임.
-"""
-
 import keyboard
 import time
 import pygame.midi
@@ -26,14 +7,35 @@ from tkinter import *
 from PIL import Image, ImageTk
 
 pygame.midi.init()
-IMAGE_PATH = 'gris2.jpg'
-WIDTH = 600
-HEIGHT = 338
 
-# 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
+WIDTH  = 600  # Background image width
+HEIGHT = 338  # Background image height
+
+
+class MyFrame:
+    def __init__(self):
+        root.geometry('600x538')
+        root.title("Virtual Instruments")
+        root.resizable(False, False)
+
+        self.canvas = Canvas(root, width=WIDTH, height=HEIGHT)
+        self.bg_img = ImageTk.PhotoImage(Image.open('gris2.jpg').resize((WIDTH, HEIGHT), Image.ANTIALIAS))
+        self.canvas.background = self.bg_img
+        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_img)
+        self.canvas.place(x=0, y=0)
+
+        self.left_frame = Frame(root, width=1, height=340, bg='white')
+        self.left_frame.grid(row=0, column=0)
+        self.left_frame['borderwidth'] = 0
+
+        # self.right_frame = Frame(root, width=1, bg='white')
+        # self.right_frame.grid(row=0, column=31)
+        # self.right_frame['borderwidth'] = 0
+
+
+# Piano Button list(Each of these is a Button name)
 white_button_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
 black_button_list = ['q', 'w', 'NULL', 'e', 'r', 't', 'NULL', 'y', 'u']
-record_button_list = ['m']
 
 
 class WhitePianoButton(Button):
@@ -68,11 +70,7 @@ class KeyboardGUI:
     button_list = list()
 
     def __init__(self):
-        root.title("Virtual Instruments")
-        root.resizable(False, False)
-
         scales = 1
-        root.geometry('600x538')
         white_keys = 10 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
 
@@ -96,21 +94,7 @@ class KeyboardGUI:
             root.rowconfigure(i+5, weight=1)
 
 
-class MyFrame:
-    def __init__(self):
-        self.canvas = Canvas(root, width=WIDTH, height=HEIGHT)
-        self.canvas.place(x=0, y=0)
-        self.img = ImageTk.PhotoImage(Image.open(IMAGE_PATH).resize((WIDTH, HEIGHT), Image.ANTIALIAS))
-        self.canvas.background = self.img
-        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.img)
-
-        self.left_frame = Frame(root, width=1, height=340, bg='white')
-        self.left_frame.grid(row=0, column=0)
-        self.left_frame['borderwidth'] = 0
-
-        self.right_frame = Frame(root, width=1, bg='white')
-        self.right_frame.grid(row=0, column=31)
-        self.right_frame['borderwidth'] = 0
+record_button_list = ['m']
 
 
 class RecordButton(Button):
@@ -254,11 +238,11 @@ if __name__ == "__main__":
     keyboardgui = KeyboardGUI()
     recordgui = RecordGUI()
 
-
     inst1 = Instrument(2)
     inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list, inst2)
+
     root.mainloop()
 
 
