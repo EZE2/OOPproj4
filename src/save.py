@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     coded by HJun -메뉴얼
     라이브 플레이를 위한 코드입니다.
