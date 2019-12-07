@@ -1,5 +1,5 @@
-
 import time
+import datetime
 
 class note_class:
     def __init__(self):
@@ -22,7 +22,11 @@ class sheet_class:
         self.note_list = list()
         self.instrument=1
         self.time_first_note_pushed=0
-        
+            
+    def set_title(self):
+        tmp=input("type the title of the song you will play : " )
+        self.title=tmp
+
     def add_to_sheet(self, note):
         if not self.note_list :
             self.time_first_note_pushed=note.time
@@ -38,7 +42,8 @@ class sheet_class:
             
 # make the sheet to .txt
 def making_txt(sheet):
-    file = open(f'{tmp_sheet.title}.txt', 'w', encoding='utf8')
+    now=datetime.datetime.now()
+    file = open(f'{now.minute}_{now.second}.txt', 'w', encoding='utf8')
     for i in tmp_sheet.note_list:
         time=round(i.time,3)
         line=f'f{i.note_key} {i.note_duration} {i.time}'

@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
 import os
+from tmp_sheet import *
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 IMG_PATH = os.path.join(BASE_PATH,'resource')
@@ -119,6 +120,7 @@ class RecordGUI:
     def stop_recording(self):
         self.button.config(image=self.record_img)
         self.button['command'] = self.recording
+#       # making_txt(tmp_sheet)
 
 def GUIinit():
     myframe = MyFrame()
