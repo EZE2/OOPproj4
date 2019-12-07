@@ -63,7 +63,10 @@ def key_input(_key, _note, instrument):
         if keyboard.is_pressed(_key):
             # 눌릴때
             print("Key pressed!")
-            instrument.note_on(_note)
+            if _note == 0:
+                continue
+            else:
+                instrument.note_on(_note)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
                     button.update()
@@ -75,9 +78,10 @@ def key_input(_key, _note, instrument):
                 for button in KeyboardGUI.button_list:
                     if button.name == _key:
                         button.update()
-
         elif keyboard.is_pressed('0'):
             return
+        else:
+            continue
 
 
 def thread_initializer(_key_list, _note_list, _instrument):
