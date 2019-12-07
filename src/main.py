@@ -16,92 +16,18 @@ key_input 에서 저장, 재생, GUI 변경 모두 처리할거임.
 """
 
 import keyboard
-import pygame
 import time
 import pygame.midi
 import threading
-from tkinter import *
-from live_play import Instrument # live_play 구현부분 모듈화
+from live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
+from GUI import GUIinit, KeyboardGUI, root
 
 # initialize pygame to use
-
 pygame.midi.init()
-
-# 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
-white_button_list = ['a','s','d','f','g']
-black_button_list = ['w', 'e', 'z', 't', 'i']
-
-
-class WhitePianoButton(Button):
-
-    def makename(self,name):
-        self.name = name
-        self.isPressed = False
-
-    def update(self):
-        if self.isPressed:
-            self.isPressed = False
-            self.configure(bg="white")
-        else:
-            self.isPressed = True
-            self.configure(bg="red")
-
-
-class BlackPianoButton(Button):
-    def makename(self,name):
-        self.name = name
-        self.isPressed = False
-
-    def update(self):
-        if self.isPressed:
-            self.isPressed = False
-            self.configure(bg="black")
-        else:
-            self.isPressed = True
-            self.configure(bg="red")
-
-
-class KeyboardGUI:
-    button_list = list()
-    def __init__(self):
-        scales = 1
-        root.geometry('{}x200'.format(300 * scales))
-        white_keys = 5 * scales
-        black = [1, 1, 0, 1, 1, 1, 0, 1, 1] * scales
-        # root.bind('<Key>', pressed)
-        for i in range(white_keys):
-            self.button = WhitePianoButton(root, bg='white', activebackground='gray87')
-            self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
-            self.button.makename(white_button_list[i])
-            KeyboardGUI.button_list.append(self.button)
-
-        for i in range(white_keys - 1):
-            if black[i]:
-                self.button = BlackPianoButton(root, bg='black', activebackground='gray12')
-                self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
-                self.button.makename(black_button_list[i])
-                KeyboardGUI.button_list.append(self.button)
-
-        for i in range(white_keys * 3):
-            root.columnconfigure(i, weight=1)
-
-        for i in range(2):
-            root.rowconfigure(i, weight=1)
-
-
-# parameter for key_input function and threading
-midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
-
-key_list = ['a', 's', 'd', 'f', 'g']
-key_list2 = ['w', 'e', 't', 'y', 'i']
-note_list = [60, 62, 64, 65, 67]
-note_list2 = [61, 63, 66, 68, 70]
-
 
 def inst_key_pressed(instrument, inst_name):
     print("change instrument:" + inst_name)
     instrument.set_instrument(midi_dic[inst_name])
-
 
 """
 option function:
@@ -165,9 +91,7 @@ def thread_initializer(_key_list, _note_list, _instrument):
 
 
 if __name__ == "__main__":
-    root = Tk()
-    keyboardgui = KeyboardGUI()
-
+    GUIinit()
     inst1 = Instrument(2)
     inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)

@@ -1,11 +1,16 @@
-import keyboard
-import pygame
+# -*- coding: utf-8 -*-
 import time
 import pygame.midi
-import threading
-from tkinter import *
 
 pygame.midi.init()
+
+# parameter for key_input function and threading
+midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
+
+key_list = ['a', 's', 'd', 'f', 'g']
+key_list2 = ['w', 'e', 't', 'y', 'i']
+note_list = [60, 62, 64, 65, 67]
+note_list2 = [61, 63, 66, 68, 70]
 
 
 class Instrument:

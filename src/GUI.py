@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
 import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
+import os
+
+BASE_PATH = os.path.dirname(os.path.dirname(__file__))
+IMG_PATH = os.path.join(BASE_PATH,'resource')
 
 WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
+root = Tk()
 
 
 class MyFrame:
@@ -13,7 +19,7 @@ class MyFrame:
         root.resizable(False, False)
 
         self.canvas = Canvas(root, width=WIDTH, height=HEIGHT)
-        self.bg_img = ImageTk.PhotoImage(Image.open('gris.jpg').resize((WIDTH, HEIGHT), Image.ANTIALIAS))
+        self.bg_img = ImageTk.PhotoImage(Image.open(os.path.join(IMG_PATH,'gris.jpg')).resize((WIDTH, HEIGHT), Image.ANTIALIAS))
         self.canvas.background = self.bg_img
         self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_img)
         self.canvas.place(x=0, y=0)
@@ -90,8 +96,8 @@ class KeyboardGUI:
 
 class RecordGUI:
     def __init__(self):
-        self.record_img = PhotoImage(file="recordbutton.png")
-        self.stop_img = PhotoImage(file="stopbutton.png")
+        self.record_img = PhotoImage(file=os.path.join(IMG_PATH,'recordbutton.png'))
+        self.stop_img = PhotoImage(file=os.path.join(IMG_PATH,'stopbutton.png'))
 
         self.button = Button(root)
         self.button.config(image=self.record_img, width=95, height=30, bd=0)
@@ -111,14 +117,12 @@ class RecordGUI:
     def stop_recording(self):
         self.button.config(image=self.record_img)
 
-
-if __name__ == "__main__":
-    root = Tk()
+def GUIinit():
     myframe = MyFrame()
     keyboardgui = KeyboardGUI()
     recordgui = RecordGUI()
 
-    root.mainloop()
+
 
 
 
