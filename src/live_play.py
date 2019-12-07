@@ -5,12 +5,12 @@ import pygame.midi
 pygame.midi.init()
 
 # parameter for key_input function and threading
-midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
+midi_dic = {'piano': 2, 'acoustic guitar': 24, 'violin': 40, 'whiparam': 78}  # midi 표 -1 = 악기번호
 
-key_list = ['a', 's', 'd', 'f', 'g']
-key_list2 = ['w', 'e', 't', 'y', 'i']
-note_list = [60, 62, 64, 65, 67]
-note_list2 = [61, 63, 66, 68, 70]
+key_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
+key_list2 = ['w', 'e', 't', 'y', 'u', 'o', 'p', 'NULL', 'NULL', 'NULL']
+note_list = [60, 62, 64, 65, 67, 69, 71, 72, 74, 76]
+note_list2 = [61, 63, 66, 68, 70, 73, 75, 'NULL', 'NULL', 'NULL']
 
 
 class Instrument:

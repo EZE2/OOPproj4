@@ -35,7 +35,7 @@ class MyFrame:
 
 # Piano Button list(Each of these is a Button name)
 white_button_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
-black_button_list = ['q', 'w', 'NULL', 'e', 'r', 't', 'NULL', 'y', 'u']
+black_button_list = ['w', 'e', 'NULL', 't', 'y', 'u', 'NULL', 'o', 'p']
 
 
 class WhitePianoButton(Button):

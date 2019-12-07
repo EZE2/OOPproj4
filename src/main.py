@@ -42,6 +42,10 @@ def option(instrument):
             inst_key_pressed(instrument, 'piano')
         elif keyboard.is_pressed('2'):
             inst_key_pressed(instrument, 'acoustic guitar')
+        elif keyboard.is_pressed('3'):
+            inst_key_pressed(instrument, 'violin')
+        elif keyboard.is_pressed('4'):
+            inst_key_pressed(instrument, 'whiparam')
         elif keyboard.is_pressed('0'):
             return
 
@@ -81,12 +85,22 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread3 = threading.Thread(target=key_input, args=(_key_list[2], _note_list[2], _instrument), daemon=True)
     thread4 = threading.Thread(target=key_input, args=(_key_list[3], _note_list[3], _instrument), daemon=True)
     thread5 = threading.Thread(target=key_input, args=(_key_list[4], _note_list[4], _instrument), daemon=True)
+    thread6 = threading.Thread(target=key_input, args=(_key_list[5], _note_list[5], _instrument), daemon=True)
+    thread7 = threading.Thread(target=key_input, args=(_key_list[6], _note_list[6], _instrument), daemon=True)
+    thread8 = threading.Thread(target=key_input, args=(_key_list[7], _note_list[7], _instrument), daemon=True)
+    thread9 = threading.Thread(target=key_input, args=(_key_list[8], _note_list[8], _instrument), daemon=True)
+    thread10 = threading.Thread(target=key_input, args=(_key_list[9], _note_list[9], _instrument), daemon=True)
     thread_inst = threading.Thread(target=option, args=(inst1,), daemon=True)
     thread1.start()
     thread2.start()
     thread3.start()
     thread4.start()
     thread5.start()
+    thread6.start()
+    thread7.start()
+    thread8.start()
+    thread9.start()
+    thread10.start()
     thread_inst.start()
 
 
