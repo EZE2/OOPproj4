@@ -1,164 +1,101 @@
+# -*- coding: utf-8 -*-
+"""
+    coded by HJun -메뉴얼
+    라이브 플레이를 위한 코드입니다.
+    악기 객체를 생성하고,
+    threadinitializer(키배열,노트배열,악기)를 실행하면 Liveplay가 가능합니다
+    기본적인 악기 교체는 1, 2번 키를 할당해두었으나, 추후 수정시 간단하게 수정 가능합니다.
+    0 누르면 모든 스레드 종료
+"""
+
+""" 12.06 EZE2
+파일 정리 절실히 필요함.
+특히 쓰레딩 관련 함수 빼고 나머지는 전부 따로 파일로 빼야하고
+안쓰는 코드들은 지우고, 분리할건 분리해야 함.
+key_input 에서 저장, 재생, GUI 변경 모두 처리할거임.
+"""
+
 import keyboard
+import pygame
 import time
 import pygame.midi
 import threading
-import tkinter as tk
 from tkinter import *
-from PIL import Image, ImageTk
+from live_play import Instrument # live_play 구현부분 모듈화
+
+# initialize pygame to use
 
 pygame.midi.init()
 
-WIDTH  = 600  # Background image width
-HEIGHT = 338  # Background image height
-
-
-class MyFrame:
-    def __init__(self):
-        root.geometry('600x538')
-        root.title("Virtual Instruments")
-        root.resizable(False, False)
-
-        self.canvas = Canvas(root, width=WIDTH, height=HEIGHT)
-        self.bg_img = ImageTk.PhotoImage(Image.open('gris2.jpg').resize((WIDTH, HEIGHT), Image.ANTIALIAS))
-        self.canvas.background = self.bg_img
-        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_img)
-        self.canvas.place(x=0, y=0)
-
-        self.left_frame = Frame(root, width=1, height=340, bg='white')
-        self.left_frame.grid(row=0, column=0)
-        self.left_frame['borderwidth'] = 0
-
-        # self.right_frame = Frame(root, width=1, bg='white')
-        # self.right_frame.grid(row=0, column=31)
-        # self.right_frame['borderwidth'] = 0
-
-
-# Piano Button list(Each of these is a Button name)
-white_button_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
-black_button_list = ['q', 'w', 'NULL', 'e', 'r', 't', 'NULL', 'y', 'u']
+# 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
+white_button_list = ['a','s','d','f','g']
+black_button_list = ['w', 'e', 'z', 't', 'i']
 
 
 class WhitePianoButton(Button):
-    def makename(self, name):
+
+    def makename(self,name):
         self.name = name
         self.isPressed = False
 
     def update(self):
         if self.isPressed:
             self.isPressed = False
-            self.configure(bg='white')
+            self.configure(bg="white")
         else:
             self.isPressed = True
-            self.configure(bg='LightSkyBlue')
+            self.configure(bg="red")
 
 
 class BlackPianoButton(Button):
-    def makename(self, name):
+    def makename(self,name):
         self.name = name
         self.isPressed = False
 
     def update(self):
         if self.isPressed:
             self.isPressed = False
-            self.configure(bg='black')
+            self.configure(bg="black")
         else:
             self.isPressed = True
-            self.configure(bg='DimGray')
+            self.configure(bg="red")
 
 
 class KeyboardGUI:
     button_list = list()
-
     def __init__(self):
         scales = 1
-        white_keys = 10 * scales
-        black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
-
+        root.geometry('{}x200'.format(300 * scales))
+        white_keys = 5 * scales
+        black = [1, 1, 0, 1, 1, 1, 0, 1, 1] * scales
+        # root.bind('<Key>', pressed)
         for i in range(white_keys):
-            self.button = WhitePianoButton(root, relief='ridge', bg='white', bd=3, activebackground='gray87')
-            self.button.grid(row=5, column=i * 3 + 1, rowspan=2, columnspan=3, sticky='nsew')
+            self.button = WhitePianoButton(root, bg='white', activebackground='gray87')
+            self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
             self.button.makename(white_button_list[i])
             KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys - 1):
             if black[i]:
-                self.button = BlackPianoButton(root, relief='raised', bg='black', bd=4, activebackground='gray12')
-                self.button.grid(row=5, column=(i * 3) + 3, rowspan=1, columnspan=2, sticky='nsew')
+                self.button = BlackPianoButton(root, bg='black', activebackground='gray12')
+                self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
                 self.button.makename(black_button_list[i])
                 KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys * 3):
-            root.columnconfigure(i+1, weight=1)
+            root.columnconfigure(i, weight=1)
 
         for i in range(2):
-            root.rowconfigure(i+5, weight=1)
+            root.rowconfigure(i, weight=1)
 
 
-record_button_list = ['m']
-
-
-class RecordButton(Button):
-    def makename(self, name):
-        self.name = name
-        self.isPressed = False
-
-    def update(self):
-        if self.isPressed:
-            self.isPressed = False
-            self.configure(bg='black', text='RECORD')
-        else:
-            self.isPressed = True
-            self.configure(bg='Red', text='STOP')
-            # 녹화시작
-            print("start record...")
-
-
-class RecordGUI:
-    button_list2 = list()
-
-    def __init__(self):
-        self.record_img = PhotoImage(file="recordbutton.png")
-        self.button = RecordButton(root)
-        self.button.config(image=self.record_img, width=95, height=30, activebackground='Red', bd=0)
-        self.button.place(x=500, y=25)
-        self.button.makename(record_button_list[0])
-        RecordGUI.button_list2.append(self.button)
-
-        # self.button = PlayButton(root, width=7, height=3, text="PLAY", bg='black', fg='white')
-        # self.button.grid(row=0, column=30)
-        # self.button.makename(record_button[0])
-        # RecordGUI.record_button_list.append(self.button)
-
-
-# class KeyInputManager:
-#    def key_input(self, key, note):
-
-
-class Instrument:
-    player = pygame.midi.Output(1)
-
-    def __init__(self, inst_no):
-        self.player.set_instrument(inst_no, 1)
-
-    def set_instrument(self, inst_no):
-        self.player.set_instrument(inst_no, 1)
-
-    def note_on(self, note):
-        self.player.note_on(note, 127, 1)
-        time.sleep(0.1)
-
-    def note_off(self, note):
-        self.player.note_off(note, 127, 1)
-
-
-# test zone--------------------------------------------------
-
-
+# parameter for key_input function and threading
 midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
 
-key_list = ['q', 'w', 'e', 'r', 't']
-key_list2 = ['a', 's', 'd', 'f', 'g']
+key_list = ['a', 's', 'd', 'f', 'g']
+key_list2 = ['w', 'e', 't', 'y', 'i']
 note_list = [60, 62, 64, 65, 67]
+note_list2 = [61, 63, 66, 68, 70]
 
 
 def inst_key_pressed(instrument, inst_name):
@@ -166,7 +103,14 @@ def inst_key_pressed(instrument, inst_name):
     instrument.set_instrument(midi_dic[inst_name])
 
 
-def change_inst_key(instrument):
+"""
+option function:
+1, 2번 키로 악기를 변경가능
+0번키는 스레딩 종료
+녹음, 프로그램 종료, 기타등등의 키입력이 필요한 기능들을 여기다 추가할 것을 권장함
+만약 부족한 부분이나, 수정이 필요한 부분이 있을시 저에게 연락주세요(HJun)
+"""
+def option(instrument):
     while True:
         if keyboard.is_pressed('1'):
             inst_key_pressed(instrument, 'piano')
@@ -177,12 +121,12 @@ def change_inst_key(instrument):
 
 
 """
+key_input function:
 이 프로그램의 핵심 함수임.
 key_input 안에 필요한 기능 다 집어넣을 것!!
 파라미터 추가하는 방식으로 저장도 이걸로 구현할 것을 권장함.
+만약 부족한 부분이나, 수정이 필요한 부분이 있을시 저에게 연락주세요(HJun)
 """
-
-
 def key_input(_key, _note, instrument):
     while True:
         if keyboard.is_pressed(_key):
@@ -201,15 +145,6 @@ def key_input(_key, _note, instrument):
                     if button.name == _key:
                         button.update()
 
-        elif keyboard.is_pressed('m'):
-            recording = True
-            while recording:
-                for button in RecordGUI.button_list2:
-                    if keyboard.is_pressed('m'):
-                        button.update()
-                    elif keyboard.is_pressed('m'):
-                        recording = False
-
         elif keyboard.is_pressed('0'):
             return
 
@@ -220,7 +155,7 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread3 = threading.Thread(target=key_input, args=(_key_list[2], _note_list[2], _instrument), daemon=True)
     thread4 = threading.Thread(target=key_input, args=(_key_list[3], _note_list[3], _instrument), daemon=True)
     thread5 = threading.Thread(target=key_input, args=(_key_list[4], _note_list[4], _instrument), daemon=True)
-    thread_inst = threading.Thread(target=change_inst_key, args=(inst1,), daemon=True)
+    thread_inst = threading.Thread(target=option, args=(inst1,), daemon=True)
     thread1.start()
     thread2.start()
     thread3.start()
@@ -229,21 +164,12 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread_inst.start()
 
 
-# for key, note in key_list, note_list:
-#    globals()['thread_{}'.format(key)] = threading.Thread(target=key_input, args=(key, note, inst1))
-# 안대네
 if __name__ == "__main__":
     root = Tk()
-    myframe = MyFrame()
     keyboardgui = KeyboardGUI()
-    recordgui = RecordGUI()
 
     inst1 = Instrument(2)
     inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
-    thread_initializer(key_list2, note_list, inst2)
-
+    thread_initializer(key_list2, note_list2, inst2)
     root.mainloop()
-
-
-
