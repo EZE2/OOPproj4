@@ -20,7 +20,7 @@ import time
 import pygame.midi
 import threading
 from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
-from src.GUI import GUIinit, KeyboardGUI, PlayLabelGUI, root
+from src.GUI import GUIinit, KeyboardGUI, root
 
 # initialize pygame to use
 pygame.midi.init()

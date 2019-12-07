@@ -2,6 +2,8 @@
 import tkinter as tk
 from tkinter import *
 from tkinter.font import Font
+from tkinter.filedialog import askopenfilename
+from tkinter.messagebox import showerror
 from PIL import Image, ImageTk
 import os
 
@@ -12,9 +14,9 @@ IMG_PATH = os.path.join(BASE_PATH, 'resource')
 # GUI Modules
 # Execution Environment - Python 3.7.4 version
 # Used tkinter, tkinter.font almost / PIL for background, button image
-# There are 6 Classes here,
-# MyFrame, KeyboardGUI(White/BlackPianoButton(child class)),
-# RecordGUI, InstrumentsGUI
+# There are 7 Classes here,
+# MyFrame, KeyboardGUI(White/BlackPianoButton),
+# RecordGUI, SheetGUI, instrumentGUI
 """
 
 root = Tk()
@@ -22,7 +24,7 @@ WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
 
 """
-" For Window / Background
+" For program Window / Background
 " using tk Canvas for loading background and call image with ImageTk(PIL) 
 " set Frame to secure space for background
 """
@@ -67,10 +69,10 @@ class WhitePianoButton(Button):
     def update(self):
         if self.isPressed:
             self.isPressed = False
-            self.configure(bg='white')
+            self.configure(bg='Azure')
         else:
             self.isPressed = True
-            self.configure(bg='LightSkyBlue')
+            self.configure(bg='LightCyan2')
 
 
 class BlackPianoButton(Button):
@@ -81,10 +83,10 @@ class BlackPianoButton(Button):
     def update(self):
         if self.isPressed:
             self.isPressed = False
-            self.configure(bg='black')
+            self.configure(bg='SteelBlue4')
         else:
             self.isPressed = True
-            self.configure(bg='DimGray')
+            self.configure(bg='DeepSkyBlue3')
 
 
 class KeyboardGUI:
@@ -96,14 +98,14 @@ class KeyboardGUI:
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
 
         for i in range(white_keys):
-            self.button = WhitePianoButton(root, relief='raised', bg='white', bd=2)
+            self.button = WhitePianoButton(root, relief='raised', bg='Azure', bd=2)
             self.button.grid(row=1, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
             self.button.makename(white_button_list[i])
             KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys - 1):
             if black[i]:
-                self.button = BlackPianoButton(root, relief='raised', bg='black', bd=4, activebackground='gray12')
+                self.button = BlackPianoButton(root, relief='raised', bg='SteelBlue4', bd=4, activebackground='gray12')
                 self.button.grid(row=1, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
                 self.button.makename(black_button_list[i])
                 KeyboardGUI.button_list.append(self.button)
@@ -132,11 +134,6 @@ class RecordGUI:
         # self.button.bind('<Button-1>', self.recording())
         # self.button.bind('<Return>', self.stop_recording())
 
-        # self.button = PlayButton(root, width=7, height=3, text="PLAY", bg='black', fg='white')
-        # self.button.grid(row=0, column=30)
-        # self.button.makename(record_button[0])
-        # RecordGUI.record_button_list.append(self.button)
-
     def recording(self):
         self.button.config(image=self.stop_img)
         self.button['command'] = self.stop_recording
@@ -147,16 +144,35 @@ class RecordGUI:
         self.button['command'] = self.recording
 
 
-# Used to show what instrument is currently playing with tk Label and Font
-class PlayLabelGUI:
+# Use to load sheet music file and play
+class SheetGUI:
+    def __init__(self):
+        self.sheet_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
+        self.button = Button(root, width=5, height=1, bg='black', bd=0, activebackground='black', text="OPEN",
+                             fg='Aquamarine', anchor='w', activeforeground='Aquamarine4', command=self.load_file)
+        self.button['font'] = self.sheet_font
+        self.button.place(x=497, y=155)
+
+    def load_file(self):
+        filename = askopenfilename(filetypes=(('template files', '*.tplate'),
+                                              ('text files', 'txt'),
+                                              ('All files', '*.*') ))
+        if filename:
+            try:
+                print("""Success loading file: self.settings["template"].set(filename)""")
+            except:
+                showerror("Open Source File", "Failed to read file\n'%s'" % filename)
+            return
+
+
+# Use to show what instrument is currently playing with tk Label and Font
+class InstrumentGUI:
     def __init__(self):
         self.label_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
         self.label = Label(root, width=10, height=1, bg='black', bd=0,
                            text="Piano", fg='white', anchor='w')
         self.label['font'] = self.label_font
         self.label.place(x=500, y=92)
-        # self.label_button = Button(root, bg='black', bd=0, command=self.change)
-        # self.label_button.place(x=600, y=10)
 
     def change(self, _key):
         if _key == 1:
@@ -170,10 +186,10 @@ class PlayLabelGUI:
 # init all in GUI
 def GUIinit():
     myframe = MyFrame()
-    keyboardgui = KeyboardGUI()
-    recordgui = RecordGUI()
-    playlabelgui = PlayLabelGUI()
-
+    keyboard = KeyboardGUI()
+    record = RecordGUI()
+    instrument = InstrumentGUI()
+    sheet = SheetGUI()
 
 
 
