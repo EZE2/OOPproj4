@@ -18,13 +18,13 @@ class MyFrame:
         self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_img)
         self.canvas.place(x=0, y=0)
 
-        self.left_frame = Frame(root, width=1, height=340, bg='white')
-        self.left_frame.grid(row=0, column=0)
-        self.left_frame['borderwidth'] = 0
+        self.right_frame = Frame(root, width=1, height=340, bg='black')
+        self.right_frame.grid(row=0, column=30)
+        self.right_frame['borderwidth'] = 0
 
-        # self.right_frame = Frame(root, width=1, bg='white')
-        # self.right_frame.grid(row=0, column=31)
-        # self.right_frame['borderwidth'] = 0
+        # self.left_frame = Frame(root, width=1, bg='white')
+        # self.left_frame.grid(row=0, column=0)
+        # self.left_frame['borderwidth'] = 0
 
 
 # Piano Button list(Each of these is a Button name)
