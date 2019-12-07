@@ -28,7 +28,7 @@ pygame.midi.init()
 # 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
 white_button_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
 black_button_list = ['q', 'w', 'NULL', 'e', 'r', 't', 'NULL', 'y', 'u']
-record_button = ['8']
+record_button_list = ['m']
 
 
 class WhitePianoButton(Button):
@@ -67,20 +67,20 @@ class KeyboardGUI:
         root.configure(background='white')
 
         scales = 1
-        root.geometry('{}x600'.format(900 * scales))
+        root.geometry('{}x500'.format(1000 * scales))
         white_keys = 10 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
         # root.bind('<Key>', pressed)
         for i in range(white_keys):
             self.button = WhitePianoButton(root, relief='raised', bg='white', bd=3, activebackground='gray87')
-            self.button.grid(row=0, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
+            self.button.grid(row=1, column=i * 3+1, rowspan=2, columnspan=3, sticky='nsew')
             self.button.makename(white_button_list[i])
             KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys - 1):
             if black[i]:
                 self.button = BlackPianoButton(root, relief='ridge', bg='black', bd=4, activebackground='gray12')
-                self.button.grid(row=0, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
+                self.button.grid(row=1, column=(i * 3) + 3, rowspan=1, columnspan=2, sticky='nsew')
                 self.button.makename(black_button_list[i])
                 KeyboardGUI.button_list.append(self.button)
 
@@ -88,18 +88,28 @@ class KeyboardGUI:
             root.columnconfigure(i, weight=1)
 
         for i in range(2):
-            root.rowconfigure(i, weight=1)
+            root.rowconfigure(i+1, weight=1)
 
 
 class MyFrame:
     def __init__(self):
-        right_frame = Button(root, width=15, bg='white')
-        right_frame.grid(row=0, column=30, sticky='nsew')
-        right_frame['borderwidth'] = 0
+        self.left_frame = Frame(root, width=150, height=200, bg='white')
+        self.left_frame.grid(row=0, column=0)
+        self.left_frame['borderwidth'] = 0
 
-        bottom_frame = Button(root, height=15, bg='white')
-        bottom_frame.grid(row=4, column=0, sticky='nsew')
-        bottom_frame['borderwidth'] = 0
+        self.right_frame = Frame(root, width=150, height=200, bg='white')
+        self.right_frame.grid(row=0, column=31)
+        self.right_frame['borderwidth'] = 0
+
+        # self.top_frame = Button(root, bg='Yellow')
+        # self.top_frame.grid(row=0)
+        # self.top_frame['borderwidth'] = 0
+
+        # self.bottom_frame = Frame(self.main_frame, bg='Green')
+        # self.bottom_frame.grid(row=2, sticky='nsew')
+        # self.bottom_frame['borderwidth'] = 0
+
+        # self.bottom_frame.grid_rowconfigure(2, weight=1)
 
 
 class RecordButton(Button):
@@ -119,13 +129,13 @@ class RecordButton(Button):
 
 
 class RecordGUI:
-    record_button_list = list()
+    button_list2 = list()
 
     def __init__(self):
         self.button = RecordButton(root, width=7, height=3, text="RECORD", bg='black', fg='white')
-        self.button.grid(row=0, column=30)
-        self.button.makename(record_button[0])
-        RecordGUI.record_button_list.append(self.button)
+        self.button.grid(row=2, column=31)
+        self.button.makename(record_button_list[0])
+        RecordGUI.button_list2.append(self.button)
 
         # self.button = PlayButton(root, width=7, height=3, text="PLAY", bg='black', fg='white')
         # self.button.grid(row=0, column=30)
@@ -161,7 +171,6 @@ midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
 
 key_list = ['q', 'w', 'e', 'r', 't']
 key_list2 = ['a', 's', 'd', 'f', 'g']
-key_list3 = ['m']
 note_list = [60, 62, 64, 65, 67]
 
 
@@ -208,9 +217,10 @@ def key_input(_key, _note, instrument):
         elif keyboard.is_pressed('m'):
             recording = True
             while recording:
-                for button in RecordGUI.record_button_list:
-                    button.update()
+                for button in RecordGUI.button_list2:
                     if keyboard.is_pressed('m'):
+                        button.update()
+                    elif keyboard.is_pressed('m'):
                         recording = False
 
         elif keyboard.is_pressed('0'):
