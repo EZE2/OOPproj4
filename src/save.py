@@ -6,17 +6,14 @@
     threadinitializer(키배열,노트배열,악기)를 실행하면 Liveplay가 가능합니다
     기본적인 악기 교체는 1, 2번 키를 할당해두었으나, 추후 수정시 간단하게 수정 가능합니다.
     0 누르면 모든 스레드 종료
-
 """
 
 """ 12.06 EZE2
 파일 정리 절실히 필요함.
 특히 쓰레딩 관련 함수 빼고 나머지는 전부 따로 파일로 빼야하고
 안쓰는 코드들은 지우고, 분리할건 분리해야 함.
-
 key_input 에서 저장, 재생, GUI 변경 모두 처리할거임.
 """
-
 
 import keyboard
 import pygame
@@ -24,6 +21,8 @@ import time
 import pygame.midi
 import threading
 from tkinter import *
+
+from live_play import Instrument # live_play 구현부분 모듈화
 
 # initialize pygame to use
 
@@ -101,23 +100,6 @@ note_list = [60, 62, 64, 65, 67]
 note_list2 = [61, 63, 66, 68, 70]
 
 
-class Instrument:
-    player = pygame.midi.Output(1)
-
-    def __init__(self, inst_no):
-        self.player.set_instrument(inst_no, 1)
-
-    def set_instrument(self, inst_no):
-        self.player.set_instrument(inst_no, 1)
-
-    def note_on(self, note):
-        self.player.note_on(note, 127, 1)
-        time.sleep(0.1)
-
-    def note_off(self, note):
-        self.player.note_off(note, 127, 1)
-
-
 def inst_key_pressed(instrument, inst_name):
     print("change instrument:" + inst_name)
     instrument.set_instrument(midi_dic[inst_name])
@@ -193,4 +175,3 @@ if __name__ == "__main__":
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list2, inst2)
     root.mainloop()
-
