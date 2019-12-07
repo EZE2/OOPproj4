@@ -7,6 +7,7 @@
     0 누르면 모든 스레드 종료
 
 """
+import tk as tk
 
 """ 12.06 EZE2
 파일 정리 절실히 필요함.
@@ -20,10 +21,14 @@ import keyboard
 import time
 import pygame.midi
 import threading
+import tkinter as tk
 from tkinter import *
+from PIL import Image, ImageTk
 
 pygame.midi.init()
-
+IMAGE_PATH = 'gris2.jpg'
+WIDTH = 600
+HEIGHT = 338
 
 # 버튼 리스트 수동으로 쭉 추가해야 함. 버튼의 이름으로 사용됨.
 white_button_list = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';']
@@ -64,52 +69,48 @@ class KeyboardGUI:
 
     def __init__(self):
         root.title("Virtual Instruments")
-        root.configure(background='white')
+        root.resizable(False, False)
 
         scales = 1
-        root.geometry('{}x500'.format(1000 * scales))
+        root.geometry('600x538')
         white_keys = 10 * scales
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
-        # root.bind('<Key>', pressed)
+
         for i in range(white_keys):
-            self.button = WhitePianoButton(root, relief='raised', bg='white', bd=3, activebackground='gray87')
-            self.button.grid(row=1, column=i * 3+1, rowspan=2, columnspan=3, sticky='nsew')
+            self.button = WhitePianoButton(root, relief='ridge', bg='white', bd=3, activebackground='gray87')
+            self.button.grid(row=5, column=i * 3 + 1, rowspan=2, columnspan=3, sticky='nsew')
             self.button.makename(white_button_list[i])
             KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys - 1):
             if black[i]:
-                self.button = BlackPianoButton(root, relief='ridge', bg='black', bd=4, activebackground='gray12')
-                self.button.grid(row=1, column=(i * 3) + 3, rowspan=1, columnspan=2, sticky='nsew')
+                self.button = BlackPianoButton(root, relief='raised', bg='black', bd=4, activebackground='gray12')
+                self.button.grid(row=5, column=(i * 3) + 3, rowspan=1, columnspan=2, sticky='nsew')
                 self.button.makename(black_button_list[i])
                 KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys * 3):
-            root.columnconfigure(i, weight=1)
+            root.columnconfigure(i+1, weight=1)
 
         for i in range(2):
-            root.rowconfigure(i+1, weight=1)
+            root.rowconfigure(i+5, weight=1)
 
 
 class MyFrame:
     def __init__(self):
-        self.left_frame = Frame(root, width=150, height=200, bg='white')
+        self.canvas = Canvas(root, width=WIDTH, height=HEIGHT)
+        self.canvas.place(x=0, y=0)
+        self.img = ImageTk.PhotoImage(Image.open(IMAGE_PATH).resize((WIDTH, HEIGHT), Image.ANTIALIAS))
+        self.canvas.background = self.img
+        self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.img)
+
+        self.left_frame = Frame(root, width=1, height=340, bg='white')
         self.left_frame.grid(row=0, column=0)
         self.left_frame['borderwidth'] = 0
 
-        self.right_frame = Frame(root, width=150, height=200, bg='white')
+        self.right_frame = Frame(root, width=1, bg='white')
         self.right_frame.grid(row=0, column=31)
         self.right_frame['borderwidth'] = 0
-
-        # self.top_frame = Button(root, bg='Yellow')
-        # self.top_frame.grid(row=0)
-        # self.top_frame['borderwidth'] = 0
-
-        # self.bottom_frame = Frame(self.main_frame, bg='Green')
-        # self.bottom_frame.grid(row=2, sticky='nsew')
-        # self.bottom_frame['borderwidth'] = 0
-
-        # self.bottom_frame.grid_rowconfigure(2, weight=1)
 
 
 class RecordButton(Button):
@@ -132,8 +133,10 @@ class RecordGUI:
     button_list2 = list()
 
     def __init__(self):
-        self.button = RecordButton(root, width=7, height=3, text="RECORD", bg='black', fg='white')
-        self.button.grid(row=2, column=31)
+        self.record_img = PhotoImage(file="recordbutton.png")
+        self.button = RecordButton(root)
+        self.button.config(image=self.record_img, width=95, height=30, activebackground='Red', bd=0)
+        self.button.place(x=500, y=25)
         self.button.makename(record_button_list[0])
         RecordGUI.button_list2.append(self.button)
 
