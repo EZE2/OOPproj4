@@ -69,40 +69,47 @@ class KeyboardGUI:
         black = [1, 1, 0, 1, 1, 1, 0, 1, 1, 0] * scales
 
         for i in range(white_keys):
-            self.button = WhitePianoButton(root, relief='ridge', bg='white', bd=3, activebackground='gray87')
-            self.button.grid(row=5, column=i * 3 + 1, rowspan=2, columnspan=3, sticky='nsew')
+            self.button = WhitePianoButton(root, relief='raised', bg='white', bd=2)
+            self.button.grid(row=1, column=i * 3, rowspan=2, columnspan=3, sticky='nsew')
             self.button.makename(white_button_list[i])
             KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys - 1):
             if black[i]:
                 self.button = BlackPianoButton(root, relief='raised', bg='black', bd=4, activebackground='gray12')
-                self.button.grid(row=5, column=(i * 3) + 3, rowspan=1, columnspan=2, sticky='nsew')
+                self.button.grid(row=1, column=(i * 3) + 2, rowspan=1, columnspan=2, sticky='nsew')
                 self.button.makename(black_button_list[i])
                 KeyboardGUI.button_list.append(self.button)
 
         for i in range(white_keys * 3):
-            root.columnconfigure(i+1, weight=1)
+            root.columnconfigure(i, weight=1)
 
         for i in range(2):
-            root.rowconfigure(i+5, weight=1)
+            root.rowconfigure(i+1, weight=1)
 
 
 class RecordGUI:
     def __init__(self):
         self.record_img = PhotoImage(file="recordbutton.png")
         self.stop_img = PhotoImage(file="stopbutton.png")
-        self.button = Button(root, command=self.update)
+
+        self.button = Button(root)
         self.button.config(image=self.record_img, width=95, height=30, bd=0)
         self.button.place(x=500, y=25)
+
+        self.button.bind('<Button-1>', self.recording())
+        self.button.bind('<Return>', self.stop_recording())
 
         # self.button = PlayButton(root, width=7, height=3, text="PLAY", bg='black', fg='white')
         # self.button.grid(row=0, column=30)
         # self.button.makename(record_button[0])
         # RecordGUI.record_button_list.append(self.button)
 
-    def update(self):
+    def recording(self):
         self.button.config(image=self.stop_img)
+
+    def stop_recording(self):
+        self.button.config(image=self.record_img)
 
 
 if __name__ == "__main__":
