@@ -93,12 +93,9 @@ class RecordGUI:
         self.record_img = PhotoImage(file="recordbutton.png")
         self.stop_img = PhotoImage(file="stopbutton.png")
 
-        self.button = Button(root)
+        self.button = Button(root, command=self.recording)
         self.button.config(image=self.record_img, width=95, height=30, bd=0)
-        self.button.place(x=500, y=25)
-
-        self.button.bind('<Button-1>', self.recording())
-        self.button.bind('<Return>', self.stop_recording())
+        self.button.place(x=500, y=27)
 
         # self.button = PlayButton(root, width=7, height=3, text="PLAY", bg='black', fg='white')
         # self.button.grid(row=0, column=30)
@@ -107,9 +104,16 @@ class RecordGUI:
 
     def recording(self):
         self.button.config(image=self.stop_img)
+        # start recording
+        self.button['command'] = self.stop_recording
 
     def stop_recording(self):
         self.button.config(image=self.record_img)
+        self.button['command'] = self.recording
+
+
+#class InstrumentGUI:
+#    def __init__(self):
 
 
 if __name__ == "__main__":
