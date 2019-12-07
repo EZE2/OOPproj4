@@ -23,6 +23,8 @@ import pygame.midi
 import threading
 from tkinter import *
 
+from live_play import Instrument # live_play 구현부분 모듈화
+
 # initialize pygame to use
 
 pygame.midi.init()
@@ -97,24 +99,6 @@ key_list = ['a', 's', 'd', 'f', 'g']
 key_list2 = ['w', 'e', 't', 'y', 'i']
 note_list = [60, 62, 64, 65, 67]
 note_list2 = [61, 63, 66, 68, 70]
-
-
-class Instrument:
-    player = pygame.midi.Output(1)
-
-    def __init__(self, inst_no):
-        self.player.set_instrument(inst_no, 1)
-
-    def set_instrument(self, inst_no):
-        self.player.set_instrument(inst_no, 1)
-
-    def note_on(self, note):
-        self.player.note_on(note, 127, 1)
-        time.sleep(0.1)
-
-    def note_off(self, note):
-        self.player.note_off(note, 127, 1)
-
 
 def inst_key_pressed(instrument, inst_name):
     print("change instrument:" + inst_name)
@@ -191,3 +175,4 @@ if __name__ == "__main__":
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list2, inst2)
     root.mainloop()
+    
