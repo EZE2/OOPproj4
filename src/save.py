@@ -92,9 +92,13 @@ class KeyboardGUI:
             root.rowconfigure(i, weight=1)
 
 
+# parameter for key_input function and threading
+midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
 
-# class KeyInputManager:
-#    def key_input(self, key, note):
+key_list = ['a', 's', 'd', 'f', 'g']
+key_list2 = ['w', 'e', 't', 'y', 'i']
+note_list = [60, 62, 64, 65, 67]
+note_list2 = [61, 63, 66, 68, 70]
 
 
 class Instrument:
@@ -114,23 +118,19 @@ class Instrument:
         self.player.note_off(note, 127, 1)
 
 
-# test zone--------------------------------------------------
-
-
-midi_dic = {'piano': 2, 'acoustic guitar': 24}  # midi 표 -1 = 악기번호
-
-key_list = ['a', 's', 'd', 'f', 'g']
-key_list2 = ['w', 'e', 't', 'y', 'i']
-note_list = [60, 62, 64, 65, 67]
-note_list2 = [61, 63, 66, 68, 70]
-
-
 def inst_key_pressed(instrument, inst_name):
     print("change instrument:" + inst_name)
     instrument.set_instrument(midi_dic[inst_name])
 
 
-def change_inst_key(instrument):
+"""
+option function:
+1, 2번 키로 악기를 변경가능
+0번키는 스레딩 종료
+녹음, 프로그램 종료, 기타등등의 키입력이 필요한 기능들을 여기다 추가할 것을 권장함
+만약 부족한 부분이나, 수정이 필요한 부분이 있을시 저에게 연락주세요(HJun)
+"""
+def option(instrument):
     while True:
         if keyboard.is_pressed('1'):
             inst_key_pressed(instrument, 'piano')
@@ -139,13 +139,14 @@ def change_inst_key(instrument):
         elif keyboard.is_pressed('0'):
             return
 
+
 """
+key_input function:
 이 프로그램의 핵심 함수임.
 key_input 안에 필요한 기능 다 집어넣을 것!!
 파라미터 추가하는 방식으로 저장도 이걸로 구현할 것을 권장함.
+만약 부족한 부분이나, 수정이 필요한 부분이 있을시 저에게 연락주세요(HJun)
 """
-
-
 def key_input(_key, _note, instrument):
     while True:
         if keyboard.is_pressed(_key):
@@ -174,7 +175,7 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread3 = threading.Thread(target=key_input, args=(_key_list[2], _note_list[2], _instrument), daemon=True)
     thread4 = threading.Thread(target=key_input, args=(_key_list[3], _note_list[3], _instrument), daemon=True)
     thread5 = threading.Thread(target=key_input, args=(_key_list[4], _note_list[4], _instrument), daemon=True)
-    thread_inst = threading.Thread(target=change_inst_key, args=(inst1,), daemon=True)
+    thread_inst = threading.Thread(target=option, args=(inst1,), daemon=True)
     thread1.start()
     thread2.start()
     thread3.start()
@@ -183,9 +184,6 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread_inst.start()
 
 
-# for key, note in key_list, note_list:
-#    globals()['thread_{}'.format(key)] = threading.Thread(target=key_input, args=(key, note, inst1))
-# 안대네
 if __name__ == "__main__":
     root = Tk()
     keyboardgui = KeyboardGUI()
