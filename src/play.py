@@ -27,7 +27,6 @@ def make_sheet():
         point_as_array = [x, y, z]
         sheet_list.append(point_as_array)
     print(sheet_list)
-    sheet_list.sort()
     return sheet_list
 
 
@@ -40,7 +39,7 @@ def rec_play(key):
         Instrument.note_off(int(note_list[i][0]))
 
 
-def p_thread_initializer(play_key):
+'''def p_thread_initializer(play_key):
     p_thread1 = threading.Thread(target=rec_play, args=(play_key[0],), daemon=True)
     p_thread2 = threading.Thread(target=rec_play, args=(play_key[1],), daemon=True)
     p_thread3 = threading.Thread(target=rec_play, args=(play_key[2],), daemon=True)
@@ -74,10 +73,10 @@ def p_thread_initializer(play_key):
     p_thread14.start()
     p_thread15.start()
     p_thread16.start()
-
+'''
 
 
 if __name__ == "__main__":
     a = make_sheet()
-    p_thread_initializer(play_key)
+'''    p_thread_initializer(play_key)'''
 
