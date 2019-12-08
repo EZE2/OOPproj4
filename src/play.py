@@ -25,12 +25,18 @@ def make_sheet():
     #print(sheet_list)
     return sheet_list
 
-def rec_play(_key, _note):
-    a = make_sheet()
-    note_list = list(filter(lambda x: x == key, a))
 
-    for i in range(len(note_list)):
+def rec_play():
+    player = pygame.midi.Output(0)
+    a = make_sheet()
+    note_list = list(filter(lambda x: x == 'a', a))
+    print(note_list)
+   ''' for i in range(len(note_list)):
         time.sleep(float(note_list[i][2]))
-        Instrument.note_on(_note)
+        player.note_on(60, 127, 1)
         time.sleep(float(note_list[i][1]))
-        Instrument.note_off(_note)
+        player.note_off(60, 127, 1)'''
+
+
+if __name__ == "__main__":
+    sibal = rec_play()
