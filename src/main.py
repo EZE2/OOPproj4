@@ -70,7 +70,7 @@ def key_input(_key, _note, instrument):
                 continue
             else:
                 instrument.note_on(_note)
-                tmp_note.set_key(_note)
+                tmp_note.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
                     button.update()
