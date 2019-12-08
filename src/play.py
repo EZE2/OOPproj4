@@ -19,15 +19,8 @@ def make_sheet():
     f = open(root.filename, 'r')
     sheet_list = []
     for item in f.readlines():
-
         item = item.rstrip()
         point = item.split(' ')
-
-
-        item = item.rstrip()
-        point = item.split(' ')
-
-
         x = point[0]
         y = point[1]
         z = point[2]
