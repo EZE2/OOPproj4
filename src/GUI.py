@@ -5,6 +5,7 @@ from tkinter.font import Font
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showerror
 from PIL import Image, ImageTk
+from tmp_sheet import *
 import os
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -22,7 +23,10 @@ IMG_PATH = os.path.join(BASE_PATH, 'resource')
 root = Tk()
 WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
+
 arial_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
+
+sheet_obj = sheet_class()
 
 """
 " For program Window / Background
@@ -124,6 +128,7 @@ distY = 75   # Distance
 """
 class RecordButton(Button):
     def start_recording(self):
+        sheet_obj.sheet_clear()
         self.configure(image=RecordGUI.stop_img)
         self['command'] = self.stop_recording
         # start recording
@@ -131,6 +136,7 @@ class RecordButton(Button):
     def stop_recording(self):
         self.configure(image=RecordGUI.record_img)
         self['command'] = self.start_recording
+        making_txt(sheet_obj)
         # stop recoding and save file
 
 

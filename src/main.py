@@ -20,7 +20,8 @@ import time
 import pygame.midi
 import threading
 from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
-from src.GUI import GUIinit, KeyboardGUI, root
+from src.GUI import GUIinit, KeyboardGUI, root, sheet_obj
+from tmp_sheet import *
 
 # initialize pygame to use
 pygame.midi.init()
@@ -60,13 +61,16 @@ key_input 안에 필요한 기능 다 집어넣을 것!!
 """
 def key_input(_key, _note, instrument):
     while True:
+        tmp_note=note_class()
         if keyboard.is_pressed(_key):
             # 눌릴때
             print("Key pressed!")
+            start_time=round(time.time(),3)
             if _note == 0:
                 continue
             else:
                 instrument.note_on(_note)
+                tmp_note.set_key(_key)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
                     button.update()
@@ -78,6 +82,9 @@ def key_input(_key, _note, instrument):
                 for button in KeyboardGUI.button_list:
                     if button.name == _key:
                         button.update()
+            end_time=round(time.time(),3)
+            tmp_note.set_duration(round(end_time-start_time,3))
+            sheet_obj.add_to_sheet(tmp_note)
         elif keyboard.is_pressed('0'):
             return
         else:
