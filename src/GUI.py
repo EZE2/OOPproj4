@@ -5,6 +5,7 @@ from tkinter.font import Font
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showerror
 from PIL import Image, ImageTk
+from tmp_sheet import *
 import os
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -22,6 +23,7 @@ IMG_PATH = os.path.join(BASE_PATH, 'resource')
 root = Tk()
 WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
+sheet_obj=sheet_class()
 
 """
 " For program Window / Background
@@ -135,14 +137,15 @@ class RecordGUI:
         # self.button.bind('<Return>', self.stop_recording())
 
     def recording(self):
+        sheet_obj.sheet_clear()
         self.button.config(image=self.stop_img)
         self.button['command'] = self.stop_recording
-        making_txt(sheet_obj)
-        # start recording
+
 
     def stop_recording(self):
         self.button.config(image=self.record_img)
         self.button['command'] = self.recording
+        making_txt(sheet_obj)
 
 
 # Use to load sheet music file and play

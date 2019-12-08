@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import datetime
 
@@ -21,6 +22,12 @@ class sheet_class:
         self.note_list = list()
         self.instrument=1
         self.time_first_note_pushed=0
+
+
+    def sheet_clear(self):
+        self.note_list = []
+        # self.instrument=1     악기 정보는 현재의 악기 정보를 따라가는 게 맞는 것 같아서 놔뒀음.
+        self.time_first_note_pushed=0
             
     def set_title(self):
         tmp=input("type the title of the song you will play : " )
@@ -42,11 +49,11 @@ class sheet_class:
 # make the sheet to .txt
 def making_txt(sheet):
     now=datetime.datetime.now()
-    file = open(f'{now.minute}_{now.second}.txt', 'w', encoding='utf8')
+    file = open(now.strftime('%Y_%m_%d_%H_%M_%S.txt'), 'w', encoding='utf8')
     for i in sheet.note_list:
         time=round(i.time,3)
         if time<0 : time = -time
         line=f'{i.note_key} {i.note_duration} {time}\n'
         file.write(line)
-    print("save txt file!")
+    print("Save txt file!")
     
