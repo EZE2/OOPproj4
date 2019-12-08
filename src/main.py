@@ -21,7 +21,7 @@ import pygame.midi
 import threading
 from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
 from src.GUI import GUIinit, KeyboardGUI, root, sheet_obj
-from tmp_sheet import *
+from src.tmp_sheet import *
 
 # initialize pygame to use
 pygame.midi.init()
