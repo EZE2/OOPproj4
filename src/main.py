@@ -115,11 +115,11 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread10.start()
     thread_inst.start()
 
+inst1 = Instrument(2)
+inst2 = Instrument(2)
 
 if __name__ == "__main__":
     GUIinit()
-    inst1 = Instrument(2)
-    inst2 = Instrument(2)
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list2, inst2)
     root.mainloop()
