@@ -154,8 +154,8 @@ class RecordGUI:
 class InstrumentGUI:
     def __init__(self):
         self.name = 'piano'
-        self.label = Label(root, width=10, height=1, bg='black', bd=0,
-                           text="Piano", fg='white', anchor='w')
+        self.label = Label(root, width=10, height=2, bg='black', bd=0,
+                           text="Piano", fg='white', anchor='w', wraplength=100, justify='left')
         self.label['font'] = arial_font
         self.label.place(x=axisX-1, y=axisY+distY)
 
@@ -197,7 +197,6 @@ def GUIinit():
     myframe = MyFrame()
     keyboard = KeyboardGUI()
     record = RecordGUI()
-
     sheet = SheetGUI()
 
 
