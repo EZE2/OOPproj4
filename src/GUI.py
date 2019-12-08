@@ -12,14 +12,14 @@ import os
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
 IMG_PATH = os.path.join(BASE_PATH, 'resource')
 
-"""
+""""""""""""""
 # GUI Modules
 # Execution Environment - Python 3.7.4 version
 # Used tkinter almost / PIL for background(.png)
 # There are 7 Classes here,
 # MyFrame, KeyboardGUI(White/BlackPianoButton),
 # RecordGUI, SheetGUI, instrumentGUI
-"""
+""""""""""""""
 
 root = Tk()
 WIDTH  = 600  # Background image width
@@ -32,9 +32,9 @@ arial_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
 sheet_obj = sheet_class()
 
 """
-" For program Window / Background
-" using tk Canvas for loading background and call image with ImageTk(PIL) 
-" set Frame to secure space for background
+# For program Window / Background
+# using tk Canvas for loading background and call image with ImageTk(PIL) 
+# set Frame to secure space for background
 """
 class MyFrame:
     def __init__(self):
@@ -162,20 +162,20 @@ class InstrumentGUI:
     def __init__(self):
         self.name = 'piano'
         self.label = Label(root, width=10, height=2, bg='black', bd=0,
-                           text="Piano", fg='white', anchor='w', wraplength=120, justify='right')
+                           text="_Piano", fg='white', anchor='w', wraplength=100, justify='right')
         self.label['font'] = arial_font
-        self.label.place(x=axisX-10, y=axisY+distY+10)
+        self.label.place(x=axisX-14, y=axisY+distY+10)
 
     def change(self, inst_name):
         self.name = inst_name
         if self.name == "piano":
-            self.label['text'] = "Piano"
+            self.label['text'] = "_Piano"
         elif self.name == "acoustic guitar":
-            self.label['text'] = "Acoustic Guitar"
+            self.label['text'] = "Acoustic_Guitar"
         elif self.name == "violin":
-            self.label['text'] = "Violin"
+            self.label['text'] = "_Violin"
         elif self.name == "whiparam":
-            self.label['text'] = "Whiparam"
+            self.label['text'] = "_Whitle"
 
 
 """
