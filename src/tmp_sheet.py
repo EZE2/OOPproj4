@@ -48,8 +48,14 @@ class sheet_class:
             
 # make the sheet to .txt
 def making_txt(sheet):
+    import os
+
+    BASE_PATH = os.path.dirname(os.path.dirname(__file__))
     now=datetime.datetime.now()
-    file = open(now.strftime('%Y_%m_%d_%H_%M_%S.txt'), 'w', encoding='utf8')
+    file_template = now.strftime('%Y_%m_%d_%H_%M_%S.txt')
+    file_path = os.path.join(BASE_PATH,'Score',file_template)
+
+    file = open(file_path, 'w', encoding='utf8')
     for i in sheet.note_list:
         time=round(i.time,3)
         if time<0 : time = -time
