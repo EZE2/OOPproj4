@@ -11,7 +11,7 @@ IMG_PATH = os.path.join(BASE_PATH,'resource')
 WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
 root = Tk()
-
+sheet_obj=sheet_class()
 
 class MyFrame:
     def __init__(self):
@@ -120,14 +120,11 @@ class RecordGUI:
     def stop_recording(self):
         self.button.config(image=self.record_img)
         self.button['command'] = self.recording
-#       # making_txt(tmp_sheet)
+        making_txt(sheet_obj)
 
 def GUIinit():
     myframe = MyFrame()
     keyboardgui = KeyboardGUI()
     recordgui = RecordGUI()
-
-
-
 
 

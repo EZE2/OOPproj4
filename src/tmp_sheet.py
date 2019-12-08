@@ -6,7 +6,6 @@ class note_class:
         self.note_key=0
         self.note_duration=0
         self.time = time.time()
-        if self.time<0 : self.time=-(self.time)
         # after keyboard.is_pressed(key): ,  inst1.note_on(note) && declare note object
         
     def set_key(self,key):
@@ -44,8 +43,10 @@ class sheet_class:
 def making_txt(sheet):
     now=datetime.datetime.now()
     file = open(f'{now.minute}_{now.second}.txt', 'w', encoding='utf8')
-    for i in tmp_sheet.note_list:
+    for i in sheet.note_list:
         time=round(i.time,3)
-        line=f'f{i.note_key} {i.note_duration} {i.time}'
+        if time<0 : time = -time
+        line=f'{i.note_key} {i.note_duration} {time}\n'
         file.write(line)
+    print("save txt file!")
     
