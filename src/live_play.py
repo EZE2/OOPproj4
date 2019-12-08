@@ -41,3 +41,5 @@ class Instrument:
 
     def note_off(self, note):
         self.player.note_off(note, 127, 1)
+
+inst1 = Instrument(2)

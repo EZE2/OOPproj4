@@ -19,7 +19,7 @@ import keyboard
 import time
 import pygame.midi
 import threading
-from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
+from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic, inst1 # live_play 구현부분 모듈화
 from src.GUI import GUIinit, KeyboardGUI, InstrumentGUI, root, sheet_obj
 from src.tmp_sheet import *
 
@@ -121,7 +121,6 @@ if __name__ == "__main__":
     GUIinit()
     instrument_gui = InstrumentGUI()
 
-    inst1 = Instrument(2)
     #inst2 = Instrument(2) 악기 여러개 쓸 일을 생각했는데 그런 경우가 없어서 삭제
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list2, inst1)

@@ -3,35 +3,33 @@ from tkinter import filedialog
 import pygame.midi
 import threading
 import time
-from src.live_play import key_note_dic
-from main import inst1
+from src.live_play import key_note_dic, inst1
+
 
 pygame.midi.init()
 
 
 _key = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 'w', 'e', 't', 'y', 'u', 'o', 'p', '.', '.', '.']
-root = Tk()
 
-
-def make_sheet():
-
-    root.filename = filedialog.askopenfilename(title="choose txt file",
-                                               filetypes=(("text files", "*.txt"), ("all files", "*.*")))
-
-    f = open(root.filename, 'r')
-    sheet_list = []
-    for item in f.readlines():
-        item = item.rstrip()
-        point = item.split(' ')
-        x = point[0]
-        y = point[1]
-        z = point[2]
-        point_as_array = [x, y, z]
-        sheet_list.append(point_as_array)
-    #print(sheet_list)
-    sheet_list.sort()
-    return sheet_list
-
+# def make_sheet():
+#
+#     root.filename = filedialog.askopenfilename(title="choose txt file",
+#                                                filetypes=(("text files", "*.txt"), ("all files", "*.*")))
+#
+#     f = open(root.filename, 'r')
+#     sheet_list = []
+#     for item in f.readlines():
+#         item = item.rstrip()
+#         point = item.split(' ')
+#         x = point[0]
+#         y = point[1]
+#         z = point[2]
+#         point_as_array = [x, y, z]
+#         sheet_list.append(point_as_array)
+#     #print(sheet_list)
+#     sheet_list.sort()
+#     return sheet_list
+#
 
 
 # def rec_play():
@@ -106,10 +104,14 @@ def p_thread_initializer(key, a):
     # p_thread20.start()
 
 
-def play_load_score():
-    a = make_sheet()
-    p_thread_initializer(_key, a)
+def play_load_score(loaded_file):
+    f = open(loaded_file, 'r')
+    loaded_score = []
+    for item in f.readlines():
+        item = item.rstrip()
+        splited_item = item.split(' ')
+        loaded_score.append(splited_item)
+    p_thread_initializer(_key, loaded_score)
 if __name__ == "__main__":
 
     p_thread_initializer(_key)
-    root.mainloop()
