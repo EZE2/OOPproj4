@@ -22,6 +22,7 @@ IMG_PATH = os.path.join(BASE_PATH, 'resource')
 root = Tk()
 WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
+arial_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
 
 """
 " For program Window / Background
@@ -40,13 +41,8 @@ class MyFrame:
         self.bg = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.bg_img)
         self.canvas.place(x=0, y=0)
 
-        self.right_frame = Frame(root, width=1, height=HEIGHT, bg='black')
+        self.right_frame = Frame(root, width=1, height=HEIGHT, bg='black', bd=0)
         self.right_frame.grid(row=0, column=30)
-        self.right_frame['borderwidth'] = 0
-
-        # self.left_frame = Frame(root, width=1, bg='white')
-        # self.left_frame.grid(row=0, column=0)
-        # self.left_frame['borderwidth'] = 0
 
 
 # Piano Button list(Each of these is a Button name and respond to same keyboard input)
@@ -117,41 +113,66 @@ class KeyboardGUI:
             root.rowconfigure(i+1, weight=1)
 
 
+axisX = 500  # To set x, y place of buttons and labels
+axisY = 20
+distY = 75   # Distance
+
 """
 # Record Button GUI
 # made with tk Button and Using PhotoImage(PIL)
 # button also has two state - recording / stopped
 """
-class RecordGUI:
-    def __init__(self):
-        self.record_img = PhotoImage(file=os.path.join(IMG_PATH, 'recordbutton.png'))
-        self.stop_img = PhotoImage(file=os.path.join(IMG_PATH, 'stopbutton.png'))
+class RecordButton(Button):
+    def start_recording(self):
+        self.configure(image=RecordGUI.stop_img)
+        self['command'] = self.stop_recording
+        # start recording
 
-        self.button = Button(root, command=self.recording)
-        self.button.config(image=self.record_img, width=95, height=30, bd=0)
-        self.button.place(x=500, y=25)
+    def stop_recording(self):
+        self.configure(image=RecordGUI.record_img)
+        self['command'] = self.start_recording
+        # stop recoding and save file
+
+
+class RecordGUI:
+    record_img = PhotoImage(file=os.path.join(IMG_PATH, 'recordbutton.png'))
+    stop_img = PhotoImage(file=os.path.join(IMG_PATH, 'stopbutton.png'))
+
+    def __init__(self):
+        self.button = RecordButton(root, width=95, height=30, bd=0,
+                                   command=lambda: RecordButton.start_recording)
+        self.button.configure(image=self.record_img)
+        self.button.place(x=axisX, y=axisY)
 
         # self.button.bind('<Button-1>', self.recording())
         # self.button.bind('<Return>', self.stop_recording())
 
-    def recording(self):
-        self.button.config(image=self.stop_img)
-        self.button['command'] = self.stop_recording
-        # start recording
 
-    def stop_recording(self):
-        self.button.config(image=self.record_img)
-        self.button['command'] = self.recording
+# Use to show what instrument is currently playing with tk Label and Font
+class InstrumentGUI:
+    def __init__(self):
+        self.label = Label(root, width=10, height=1, bg='black', bd=0,
+                           text="Piano", fg='white', anchor='w')
+        self.label['font'] = arial_font
+        self.label.place(x=axisX-1, y=axisY+distY)
+
+    def change(self, _key):
+        if _key == 1:
+            self.label.configure(text="Piano")
+        elif _key == 2:
+            self.label.configure(text="Acoustic Guitar")
+        elif _key == 3:
+            self.label.configure(text="Violin")
 
 
 # Use to load sheet music file and play
+# It uses tkinter.filedialog to load sheet music resource saved
 class SheetGUI:
     def __init__(self):
-        self.sheet_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
         self.button = Button(root, width=5, height=1, bg='black', bd=0, activebackground='black', text="OPEN",
                              fg='Aquamarine', anchor='w', activeforeground='Aquamarine4', command=self.load_file)
-        self.button['font'] = self.sheet_font
-        self.button.place(x=497, y=155)
+        self.button['font'] = arial_font
+        self.button.place(x=axisX-3, y=axisY+distY+distY)
 
     def load_file(self):
         filename = askopenfilename(filetypes=(('template files', '*.tplate'),
@@ -165,25 +186,7 @@ class SheetGUI:
             return
 
 
-# Use to show what instrument is currently playing with tk Label and Font
-class InstrumentGUI:
-    def __init__(self):
-        self.label_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
-        self.label = Label(root, width=10, height=1, bg='black', bd=0,
-                           text="Piano", fg='white', anchor='w')
-        self.label['font'] = self.label_font
-        self.label.place(x=500, y=92)
-
-    def change(self, _key):
-        if _key == 1:
-            self.label.configure(text="Piano")
-        elif _key == 2:
-            self.label.configure(text="Acoustic Guitar")
-        elif _key == 3:
-            self.label.configure(text="Violin")
-
-
-# init all in GUI
+# init all class in GUI.py
 def GUIinit():
     myframe = MyFrame()
     keyboard = KeyboardGUI()
