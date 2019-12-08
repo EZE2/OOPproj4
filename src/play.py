@@ -22,14 +22,14 @@ _key = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 'w', 'e', 't', 'y', 'u
 def rec_play(key, a):
 
     note_list = list(filter(lambda x: x[0] == key, a))
+    interval = 0
     if note_list:
         for i in note_list:
-            tmp_note = key_note_dic[i[0]]
-            print(tmp_note)
-            time.sleep(float(i[2]))
+            time.sleep(float(i[2]) - interval)
             inst1.note_on(note=key_note_dic[i[0]])
             time.sleep(float(i[1]))
             inst1.note_off(note=key_note_dic[i[0]])
+            interval = float(i[1]) + float(i[2])
 
 
 def p_thread_initializer(key, a):
