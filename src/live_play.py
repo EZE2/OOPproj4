@@ -26,6 +26,9 @@ class Instrument:
         self.name = inst_name
         print("inst name: " + self.name)
 
+    def get_instrument(self):
+        return self.name
+
     def note_on(self, note):
         self.player.note_on(note, 127, 1)
         time.sleep(0.1)

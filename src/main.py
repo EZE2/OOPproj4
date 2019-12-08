@@ -26,9 +26,6 @@ from tmp_sheet import *
 # initialize pygame to use
 pygame.midi.init()
 
-def inst_key_pressed(instrument, inst_name):
-    #print("change instrument:" + inst_name) 불필요해져 삭제
-    instrument.set_instrument(midi_dic[inst_name], inst_name)
 
 """
 option function:
@@ -40,14 +37,16 @@ option function:
 def option(instrument):
     while True:
         if keyboard.is_pressed('1'):
-            inst_key_pressed(instrument, 'piano')
+            instrument.set_instrument(midi_dic['piano'], 'piano')
+            print("getter test:" + instrument.get_instrument())
             # PlayLabelGUI.label.configure(text="Piano")
+            # 악기이름은 instrument.name 으로 사용하시면 됩니다!
         elif keyboard.is_pressed('2'):
-            inst_key_pressed(instrument, 'acoustic guitar')
+            instrument.set_instrument(midi_dic['acoustic guitar'], 'acoustic guitar')
         elif keyboard.is_pressed('3'):
-            inst_key_pressed(instrument, 'violin')
+            instrument.set_instrument(midi_dic['violin'], 'violin')
         elif keyboard.is_pressed('4'):
-            inst_key_pressed(instrument, 'whiparam')
+            instrument.set_instrument(midi_dic['whiparam'], 'whiparam')
         elif keyboard.is_pressed('0'):
             return
 
