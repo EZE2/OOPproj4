@@ -6,6 +6,8 @@ from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showerror
 from PIL import Image, ImageTk
 from src.tmp_sheet import sheet_class, making_txt
+from tmp_sheet import *
+from play import play_load_score
 import os
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -187,6 +189,7 @@ class SheetGUI:
         if filename:
             try:
                 print("""Success loading file: self.settings["template"].set(filename)""")
+                play_load_score()
             except:
                 showerror("Open Source File", "Failed to read file\n'%s'" % filename)
             return
