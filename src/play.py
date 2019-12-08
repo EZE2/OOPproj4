@@ -16,6 +16,7 @@ def make_sheet():
     f = open(root.filename, 'r')
     sheet_list = []
     for item in f.readlines():
+        item = item.rstrip()
         point = item.split(' ')
         x = point[0]
         y = point[1]
@@ -23,15 +24,18 @@ def make_sheet():
         point_as_array = [x, y, z]
         sheet_list.append(point_as_array)
     #print(sheet_list)
+    sheet_list.sort()
     return sheet_list
 
 
 def rec_play():
-    player = pygame.midi.Output(0)
+    #player = pygame.midi.Output(0)
     a = make_sheet()
-    note_list = list(filter(lambda x: x == 'a', a))
+    print(a)
+    note_list = filter(lambda x: x[0] == 'a', a)
     print(note_list)
-   ''' for i in range(len(note_list)):
+
+'''for i in range(len(note_list)):
         time.sleep(float(note_list[i][2]))
         player.note_on(60, 127, 1)
         time.sleep(float(note_list[i][1]))
