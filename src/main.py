@@ -48,8 +48,6 @@ def option(instrument, instrument_gui):
         elif keyboard.is_pressed('4'):
             instrument.set_instrument(midi_dic['whiparam'], 'whiparam')
             instrument_gui.change(instrument.get_instrument())
-        elif keyboard.is_pressed('0'):
-            return
 
 
 """
@@ -85,8 +83,6 @@ def key_input(_key, _note, instrument):
             end_time=round(time.time(),3)
             tmp_note.set_duration(round(end_time-start_time,3))
             sheet_obj.add_to_sheet(tmp_note)
-        elif keyboard.is_pressed('0'):
-            return
         else:
             continue
 
