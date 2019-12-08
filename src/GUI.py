@@ -14,7 +14,7 @@ IMG_PATH = os.path.join(BASE_PATH, 'resource')
 """
 # GUI Modules
 # Execution Environment - Python 3.7.4 version
-# Used tkinter, tkinter.font almost / PIL for background, button image(.png)
+# Used tkinter almost / PIL for background(.png)
 # There are 7 Classes here,
 # MyFrame, KeyboardGUI(White/BlackPianoButton),
 # RecordGUI, SheetGUI, instrumentGUI
@@ -27,6 +27,7 @@ HEIGHT = 338  # Background image height
 # global font property
 arial_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
 
+# sheet object from tmp_sheet.py in src
 sheet_obj = sheet_class()
 
 """
@@ -59,7 +60,7 @@ black_button_list = ['w', 'e', 'NULL', 't', 'y', 'u', 'NULL', 'o', 'p']
 # Keyboard GUI
 # WhitePianoButton and BlackPianoButton are child class of KeyboardGUI class
 # keyboardGUI is used in main.py's key_input function
-# made with tk Button, grid
+# GUI is made by tk Button, grid
 # buttons have two state - Pressed or Unpressed
 """
 class WhitePianoButton(Button):
@@ -118,15 +119,15 @@ class KeyboardGUI:
             root.rowconfigure(i+1, weight=1)
 
 
-axisX = 500  # To set x, y place of buttons and labels
+axisX = 500  # To set x, y place of buttons and labels below
 axisY = 20
-distY = 75   # Distance
+distY = 75   # Y axis Distance
 
 """
 # Record Button GUI
-# made with tk Button and Using PhotoImage(PIL)
-# button also has two state - recording / stopped
-# Please comment how is does
+# made by tk Button, PhotoImage
+# button also has two state - recording / stopped (onclick event)
+# If clicked, image is changed, and command also changed to deal with two function
 """
 class RecordGUI:
     record_img = PhotoImage(file=os.path.join(IMG_PATH, 'recordbutton.png'))
@@ -138,7 +139,7 @@ class RecordGUI:
         self.button.place(x=axisX, y=axisY)
 
     def start_recording(self):
-        sheet_obj.sheet_clear()
+        sheet_obj.sheet_clear()  # sheet clear to get newly one by one sheet
         self.button.configure(image=self.stop_img)
         self.button['command'] = self.stop_recording
         # start recording
@@ -150,7 +151,12 @@ class RecordGUI:
         # stop recoding and save file
 
 
-# Use to show what instrument is currently playing with tk Label and Font
+"""
+# Current Instruments Label GUI
+# made by tk Label and Font
+# the main.py has instrumentGUI object so can use change funcion in option func.
+# Just simply change Text in label
+"""
 class InstrumentGUI:
     def __init__(self):
         self.name = 'piano'
@@ -171,8 +177,11 @@ class InstrumentGUI:
             self.label['text'] = "Whiparam"
 
 
-# Use to load sheet music file and play
-# It uses tkinter.filedialog to load sheet music resource saved
+"""
+# Sheet Load Button GUI
+# It uses tkinter.filedialog to load saved sheet music(we used txt file)(onclick event)
+# After load, it play sheet music soon
+"""
 class SheetGUI:
     def __init__(self):
         self.button = Button(root, width=5, height=1, bg='black', bd=0, activebackground='black', text="OPEN",
@@ -192,7 +201,7 @@ class SheetGUI:
             return
 
 
-# init all class in GUI.py
+# init all class in GUI.py except InstrumentGUI(it is in main.py)
 def GUIinit():
     myframe = MyFrame()
     keyboard = KeyboardGUI()
