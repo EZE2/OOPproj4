@@ -19,8 +19,8 @@ import keyboard
 import time
 import pygame.midi
 import threading
-from live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
-from GUI import GUIinit, KeyboardGUI, root, sheet_obj
+from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
+from src.GUI import GUIinit, KeyboardGUI, root
 from tmp_sheet import *
 
 # initialize pygame to use
@@ -41,6 +41,7 @@ def option(instrument):
     while True:
         if keyboard.is_pressed('1'):
             inst_key_pressed(instrument, 'piano')
+            # PlayLabelGUI.label.configure(text="Piano")
         elif keyboard.is_pressed('2'):
             inst_key_pressed(instrument, 'acoustic guitar')
         elif keyboard.is_pressed('3'):
