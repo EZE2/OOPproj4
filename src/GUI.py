@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import tkinter as tk
-from tkinter import *
+from tkinter import Button, Canvas, Frame, Label, Tk, PhotoImage
 from tkinter.font import Font
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showerror
 from PIL import Image, ImageTk
-from tmp_sheet import *
+from src.tmp_sheet import sheet_class, making_txt
 import os
 
 BASE_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -14,7 +14,7 @@ IMG_PATH = os.path.join(BASE_PATH, 'resource')
 """
 # GUI Modules
 # Execution Environment - Python 3.7.4 version
-# Used tkinter, tkinter.font almost / PIL for background, button image
+# Used tkinter, tkinter.font almost / PIL for background, button image(.png)
 # There are 7 Classes here,
 # MyFrame, KeyboardGUI(White/BlackPianoButton),
 # RecordGUI, SheetGUI, instrumentGUI
@@ -24,6 +24,7 @@ root = Tk()
 WIDTH  = 600  # Background image width
 HEIGHT = 338  # Background image height
 
+# global font property
 arial_font = tk.font.Font(root, family='Arial', size=17, weight='bold')
 
 sheet_obj = sheet_class()
@@ -125,33 +126,28 @@ distY = 75   # Distance
 # Record Button GUI
 # made with tk Button and Using PhotoImage(PIL)
 # button also has two state - recording / stopped
+# Please comment how is does
 """
-class RecordButton(Button):
-    def start_recording(self):
-        sheet_obj.sheet_clear()
-        self.configure(image=RecordGUI.stop_img)
-        self['command'] = self.stop_recording
-        # start recording
-
-    def stop_recording(self):
-        self.configure(image=RecordGUI.record_img)
-        self['command'] = self.start_recording
-        making_txt(sheet_obj)
-        # stop recoding and save file
-
-
 class RecordGUI:
     record_img = PhotoImage(file=os.path.join(IMG_PATH, 'recordbutton.png'))
     stop_img = PhotoImage(file=os.path.join(IMG_PATH, 'stopbutton.png'))
 
     def __init__(self):
-        self.button = RecordButton(root, width=95, height=30, bd=0,
-                                   command=lambda: RecordButton.start_recording)
+        self.button = Button(root, width=95, height=30, bd=0, command=self.start_recording)
         self.button.configure(image=self.record_img)
         self.button.place(x=axisX, y=axisY)
 
-        # self.button.bind('<Button-1>', self.recording())
-        # self.button.bind('<Return>', self.stop_recording())
+    def start_recording(self):
+        sheet_obj.sheet_clear()
+        self.button.configure(image=self.stop_img)
+        self.button['command'] = self.stop_recording
+        # start recording
+
+    def stop_recording(self):
+        self.button.configure(image=self.record_img)
+        self.button['command'] = self.start_recording
+        making_txt(sheet_obj)
+        # stop recoding and save file
 
 
 # Use to show what instrument is currently playing with tk Label and Font
