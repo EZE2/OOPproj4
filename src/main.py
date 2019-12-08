@@ -38,10 +38,7 @@ def option(instrument, instrument_gui):
     while True:
         if keyboard.is_pressed('1'):
             instrument.set_instrument(midi_dic['piano'], 'piano')
-            print("getter test:" + instrument.get_instrument())
-            # print("getter test:" + instrument.get_instrument())
             instrument_gui.change(instrument.get_instrument())
-            # 악기이름은 instrument.name 으로 사용하시면 됩니다!
         elif keyboard.is_pressed('2'):
             instrument.set_instrument(midi_dic['acoustic guitar'], 'acoustic guitar')
             instrument_gui.change(instrument.get_instrument())
@@ -73,7 +70,7 @@ def key_input(_key, _note, instrument):
                 continue
             else:
                 instrument.note_on(_note)
-                tmp_note.set_key(_key)
+                tmp_note.set_key(_note)
             for button in KeyboardGUI.button_list:
                 if button.name == _key:
                     button.update()
