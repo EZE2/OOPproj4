@@ -25,12 +25,12 @@ def make_sheet():
     #print(sheet_list)
     return sheet_list
 
-def rec_play(key):
+def rec_play(_key, _note):
     a = make_sheet()
     note_list = list(filter(lambda x: x == key, a))
 
     for i in range(len(note_list)):
         time.sleep(float(note_list[i][2]))
-        Instrument.note_on(key)
+        Instrument.note_on(_note)
         time.sleep(float(note_list[i][1]))
-        Instrument.note_off(key)
+        Instrument.note_off(_note)
