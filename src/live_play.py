@@ -15,12 +15,16 @@ note_list2 = [61, 63, 66, 68, 70, 73, 75, 0, 0, 0]
 
 class Instrument:
     player = pygame.midi.Output(1)
+    name = ''
 
     def __init__(self, inst_no):
         self.player.set_instrument(inst_no, 1)
+        self.name = 'piano'
 
-    def set_instrument(self, inst_no):
+    def set_instrument(self, inst_no, inst_name):
         self.player.set_instrument(inst_no, 1)
+        self.name = inst_name
+        print("inst name: " + self.name)
 
     def note_on(self, note):
         self.player.note_on(note, 127, 1)

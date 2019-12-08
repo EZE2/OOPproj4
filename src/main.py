@@ -27,8 +27,8 @@ from tmp_sheet import *
 pygame.midi.init()
 
 def inst_key_pressed(instrument, inst_name):
-    print("change instrument:" + inst_name)
-    instrument.set_instrument(midi_dic[inst_name])
+    #print("change instrument:" + inst_name) 불필요해져 삭제
+    instrument.set_instrument(midi_dic[inst_name], inst_name)
 
 """
 option function:
@@ -119,7 +119,7 @@ def thread_initializer(_key_list, _note_list, _instrument):
 if __name__ == "__main__":
     GUIinit()
     inst1 = Instrument(2)
-    inst2 = Instrument(2)
+    #inst2 = Instrument(2) 악기 여러개 쓸 일을 생각했는데 그런 경우가 없어서 삭제
     thread_initializer(key_list, note_list, inst1)
-    thread_initializer(key_list2, note_list2, inst2)
+    thread_initializer(key_list2, note_list2, inst1)
     root.mainloop()
