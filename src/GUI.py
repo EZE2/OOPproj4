@@ -167,6 +167,8 @@ class InstrumentGUI:
             self.label['text'] = "Acoustic Guitar"
         elif self.name == "violin":
             self.label['text'] = "Violin"
+        elif self.name == "whiparam":
+            self.label['text'] = "Whiparam"
 
 
 # Use to load sheet music file and play
@@ -195,7 +197,7 @@ def GUIinit():
     myframe = MyFrame()
     keyboard = KeyboardGUI()
     record = RecordGUI()
-    instrument = InstrumentGUI()
+
     sheet = SheetGUI()
 
 

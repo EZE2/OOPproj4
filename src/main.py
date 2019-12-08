@@ -34,19 +34,26 @@ option function:
 녹음, 프로그램 종료, 기타등등의 키입력이 필요한 기능들을 여기다 추가할 것을 권장함
 만약 부족한 부분이나, 수정이 필요한 부분이 있을시 저에게 연락주세요(HJun)
 """
-def option(instrument):
+def option(instrument, instrument_gui):
     while True:
         if keyboard.is_pressed('1'):
             instrument.set_instrument(midi_dic['piano'], 'piano')
+<<<<<<< HEAD
+            print("getter test:" + instrument.get_instrument())
+=======
             # print("getter test:" + instrument.get_instrument())
-            InstrumentGUI.change(instrument.get_instrument())
+            instrument_gui.change(instrument.get_instrument())
+>>>>>>> 4f53ef1711d6151b805d8fa82630ad10ea2c5c5d
             # 악기이름은 instrument.name 으로 사용하시면 됩니다!
         elif keyboard.is_pressed('2'):
             instrument.set_instrument(midi_dic['acoustic guitar'], 'acoustic guitar')
+            instrument_gui.change(instrument.get_instrument())
         elif keyboard.is_pressed('3'):
             instrument.set_instrument(midi_dic['violin'], 'violin')
+            instrument_gui.change(instrument.get_instrument())
         elif keyboard.is_pressed('4'):
             instrument.set_instrument(midi_dic['whiparam'], 'whiparam')
+            instrument_gui.change(instrument.get_instrument())
         elif keyboard.is_pressed('0'):
             return
 
@@ -101,7 +108,6 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread8 = threading.Thread(target=key_input, args=(_key_list[7], _note_list[7], _instrument), daemon=True)
     thread9 = threading.Thread(target=key_input, args=(_key_list[8], _note_list[8], _instrument), daemon=True)
     thread10 = threading.Thread(target=key_input, args=(_key_list[9], _note_list[9], _instrument), daemon=True)
-    thread_inst = threading.Thread(target=option, args=(inst1,), daemon=True)
     thread1.start()
     thread2.start()
     thread3.start()
@@ -112,13 +118,18 @@ def thread_initializer(_key_list, _note_list, _instrument):
     thread8.start()
     thread9.start()
     thread10.start()
-    thread_inst.start()
 
 
 if __name__ == "__main__":
     GUIinit()
+    instrument_gui = InstrumentGUI()
+
     inst1 = Instrument(2)
     #inst2 = Instrument(2) 악기 여러개 쓸 일을 생각했는데 그런 경우가 없어서 삭제
     thread_initializer(key_list, note_list, inst1)
     thread_initializer(key_list2, note_list2, inst1)
+
+    thread_inst = threading.Thread(target=option, args=(inst1, instrument_gui), daemon=True)
+    thread_inst.start()
+
     root.mainloop()
