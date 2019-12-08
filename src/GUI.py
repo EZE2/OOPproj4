@@ -155,9 +155,9 @@ class InstrumentGUI:
     def __init__(self):
         self.name = 'piano'
         self.label = Label(root, width=10, height=2, bg='black', bd=0,
-                           text="Piano", fg='white', anchor='w', wraplength=100, justify='left')
+                           text="Piano", fg='white', anchor='w', wraplength=120, justify='right')
         self.label['font'] = arial_font
-        self.label.place(x=axisX-1, y=axisY+distY)
+        self.label.place(x=axisX-10, y=axisY+distY+10)
 
     def change(self, inst_name):
         self.name = inst_name
