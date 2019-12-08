@@ -3,7 +3,7 @@ from tkinter import filedialog
 import pygame.midi
 import threading
 import time
-from operator import itemgetter
+from src.live_play import Instrument
 
 pygame.midi.init()
 
@@ -25,3 +25,12 @@ def make_sheet():
     #print(sheet_list)
     return sheet_list
 
+def rec_play(key):
+    a = make_sheet()
+    note_list = list(filter(lambda x: x == key, a))
+
+    for i in range(len(note_list)):
+        time.sleep(float(note_list[i][2]))
+        Instrument.note_on(key)
+        time.sleep(float(note_list[i][1]))
+        Instrument.note_off(key)
