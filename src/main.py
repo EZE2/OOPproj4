@@ -20,7 +20,7 @@ import time
 import pygame.midi
 import threading
 from src.live_play import Instrument, key_list2, key_list, note_list, note_list2, midi_dic # live_play 구현부분 모듈화
-from src.GUI import GUIinit, KeyboardGUI, root, sheet_obj
+from src.GUI import GUIinit, KeyboardGUI, InstrumentGUI, root, sheet_obj
 from src.tmp_sheet import *
 
 # initialize pygame to use
@@ -38,8 +38,8 @@ def option(instrument):
     while True:
         if keyboard.is_pressed('1'):
             instrument.set_instrument(midi_dic['piano'], 'piano')
-            print("getter test:" + instrument.get_instrument())
-            # PlayLabelGUI.label.configure(text="Piano")
+            # print("getter test:" + instrument.get_instrument())
+            InstrumentGUI.change(instrument.get_instrument())
             # 악기이름은 instrument.name 으로 사용하시면 됩니다!
         elif keyboard.is_pressed('2'):
             instrument.set_instrument(midi_dic['acoustic guitar'], 'acoustic guitar')

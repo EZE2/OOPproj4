@@ -153,18 +153,20 @@ class RecordGUI:
 # Use to show what instrument is currently playing with tk Label and Font
 class InstrumentGUI:
     def __init__(self):
+        self.name = 'piano'
         self.label = Label(root, width=10, height=1, bg='black', bd=0,
                            text="Piano", fg='white', anchor='w')
         self.label['font'] = arial_font
         self.label.place(x=axisX-1, y=axisY+distY)
 
-    def change(self, _key):
-        if _key == 1:
-            self.label.configure(text="Piano")
-        elif _key == 2:
-            self.label.configure(text="Acoustic Guitar")
-        elif _key == 3:
-            self.label.configure(text="Violin")
+    def change(self, inst_name):
+        self.name = inst_name
+        if self.name == "piano":
+            self.label['text'] = "Piano"
+        elif self.name == "acoustic guitar":
+            self.label['text'] = "Acoustic Guitar"
+        elif self.name == "violin":
+            self.label['text'] = "Violin"
 
 
 # Use to load sheet music file and play
