@@ -4,6 +4,7 @@ import pygame.midi
 import threading
 import time
 from src.live_play import key_note_dic, inst1
+import os
 
 
 pygame.midi.init()
@@ -17,7 +18,6 @@ _key = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', 'w', 'e', 't', 'y', 'u
         player.note_on(60, 127, 1)
         time.sleep(float(note_list[i][1]))
         player.note_off(60, 127, 1)'''
-
 
 def rec_play(key, a):
 
@@ -77,6 +77,7 @@ def p_thread_initializer(key, a):
 
 
 def play_load_score(loaded_file):
+
     f = open(loaded_file, 'r')
     loaded_score = []
     for item in f.readlines():

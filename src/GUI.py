@@ -191,7 +191,7 @@ class SheetGUI:
         self.button.place(x=axisX-3, y=axisY+distY+distY)
 
     def load_file(self):
-        filename = askopenfilename(initialdir=BASE_PATH, filetypes=(
+        filename = askopenfilename(initialdir=os.path.join(BASE_PATH,'Score'), filetypes=(
                                               ('text files', 'txt'),
                                               ('All files', '*.*') ))
         if filename:
